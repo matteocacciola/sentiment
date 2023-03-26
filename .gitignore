@@ -1,0 +1,16 @@
+# app
+logs
+dist
+
+# node / npm
+*.log
+node_modules
+.eslintcache
+
+# PHPStorm files
+.idea
+.DS_Store
+install.log
+
+# app
+.env*
