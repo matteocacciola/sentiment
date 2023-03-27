@@ -4,10 +4,10 @@ export type DateRange = {
 };
 
 export enum SENTIMENTS {
-  positive,
-  negative,
-  neutral,
-  undefined,
+  positive = 'positive',
+  negative = 'negative',
+  neutral = 'neutral',
+  undefined = 'undefined',
 }
 
 export type SentimentsType = keyof typeof SENTIMENTS;
@@ -57,7 +57,12 @@ export type AnalysisResultType = {
 
 export type CallbackFunctionType = (...args: any[]) => any;
 
-export type ProviderFunctionType = (company: string, timerange: DateRange) => Promise<AnalysisResultType>;
+export type ProviderFunctionType = (
+  company: string,
+  timerange: DateRange,
+  strategyType: StrategyType,
+  scoreThreshold: number,
+) => Promise<AnalysisResultType>;
 
 export enum STRATEGIES {
   google = 'GOOGLE',

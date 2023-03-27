@@ -1,7 +1,8 @@
-import { DateRange, MEDIA, MediaType, SentimentAnalysisResult } from '../types';
+import { DateRange, MEDIA, MediaType, SentimentAnalysisResult, StrategyType } from '../types';
 import { OpenGPT } from '../utils/openai';
-import { sentimentMediaProvider } from '../providers/factory';
+import { sentimentMediaFactory } from '../providers/factory';
 import { getTimerange } from '../helpers/getTimerange';
+import { CONFIG } from '../constants';
 
 type SentimentResult = Record<MediaType, SentimentAnalysisResult>;
 
@@ -10,7 +11,14 @@ const getCompanyMediaSentiment = async (
   media: MediaType,
   timerange: DateRange,
 ): Promise<SentimentAnalysisResult> => {
-  const { sentimentStats, scores: analyzedElements } = await sentimentMediaProvider(media)(company, timerange);
+  const { STRATEGY_PROVIDER, SCORE_THRESHOLD } = CONFIG;
+
+  const { sentimentStats, scores: analyzedElements } = await sentimentMediaFactory(media)(
+    company,
+    timerange,
+    STRATEGY_PROVIDER as StrategyType,
+    SCORE_THRESHOLD,
+  );
 
   // Generate summary text using OpenAI API
   const summary = await new OpenGPT.OpenAIObj()
@@ -27,7 +35,7 @@ const getCompanyMediaSentiment = async (
 };
 
 export const sentiment = async (company: string): Promise<SentimentResult> => {
-  const timerange = getTimerange();
+  const timerange = getTimerange(CONFIG.SCAN_PERIOD_DAYS);
   const results: SentimentResult | null = null;
 
   for (const media in MEDIA) {

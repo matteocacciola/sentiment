@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "incremental": true,
     "module": "commonjs",
     "target": "ES2021",
@@ -20,5 +21,6 @@
     "baseUrl": "."
   },
   "exclude": ["node_modules"],
-  "include": [".eslintrc.js", "./src/**/*.ts", "package.json"]
+  "include": [".eslintrc.js",
+    "vite.config.ts", "./src/**/*.ts", "package.json"]
 }

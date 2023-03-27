@@ -1,6 +1,7 @@
 # app
 logs
 dist
+coverage
 
 # node / npm
 *.log

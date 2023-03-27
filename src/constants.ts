@@ -1,4 +1,4 @@
-import * as process from 'process';
+import process from 'process';
 
 export const FACEBOOK = {
   ACCESS_TOKEN: `${process.env.FACEBOOK_ACCESS_TOKEN}`,
@@ -39,7 +39,7 @@ export const OPENAI = {
 };
 
 export const CONFIG = {
-  SCAN_PERIOD_DAYS: process.env.SCAN_PERIOD_DAYS,
+  SCAN_PERIOD_DAYS: Number(process.env.SCAN_PERIOD_DAYS ?? 7),
   STRATEGY_PROVIDER: process.env.STRATEGY_PROVIDER ?? 'afinn',
   SCORE_THRESHOLD: Number(process.env.PROCESS_THRESHOLD ?? 0.3),
 };

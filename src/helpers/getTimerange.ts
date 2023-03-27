@@ -1,10 +1,9 @@
-import * as moment from 'moment';
-import { CONFIG } from '../constants';
+import moment from 'moment';
 import { DateRange } from '../types';
 
-export const getTimerange = (): DateRange => {
+export const getTimerange = (period: number): DateRange => {
   const since = moment();
-  const until = since.subtract(CONFIG.SCAN_PERIOD_DAYS, 'days');
+  const until = since.subtract(period, 'days');
 
   return {
     since: since.toISOString(),

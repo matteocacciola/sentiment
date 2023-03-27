@@ -14,7 +14,7 @@ const isTwitter = (media: MediaType): boolean => media === 'twitter';
 const isYoutube = (media: MediaType): boolean => media === 'youtube';
 const isTiktok = (media: MediaType): boolean => media === 'tiktok';
 
-export const sentimentMediaProvider = (media: MediaType): ProviderFunctionType => {
+export const sentimentMediaFactory = (media: MediaType): ProviderFunctionType => {
   const provider = cond<MediaType, ProviderFunctionType>([
     [isFacebook, constant<ProviderFunctionType>(facebookAnalyze)],
     [isInstagram, constant<ProviderFunctionType>(instagramAnalyze)],
