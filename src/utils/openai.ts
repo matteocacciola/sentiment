@@ -2,33 +2,31 @@ import { OpenAIApi, Configuration } from 'openai';
 import { MEDIA, MediaType } from '../types';
 import { OPENAI } from '../constants';
 
-export namespace OpenGPT {
-  export class OpenAIObj {
-    private client: OpenAIApi;
+export namespace OpenAI {
+  export const getSummary = async (
+    company: string,
+    media: MediaType,
+    elements: string[],
+  ): Promise<string | undefined> => {
+    const configuration = new Configuration({
+      apiKey: OPENAI.API_KEY,
+    });
+    const client = new OpenAIApi(configuration);
 
-    constructor() {
-      const configuration = new Configuration({
-        apiKey: OPENAI.API_KEY,
-      });
-      this.client = new OpenAIApi(configuration);
+    if (!elements.length) {
+      return undefined;
     }
 
-    public getSummary = async (company: string, media: MediaType, elements: string[]): Promise<string | undefined> => {
-      if (!elements.length) {
-        return undefined;
-      }
+    const prompt = `Analyze the sentiment for ${company} on ${MEDIA[media]} based on the comments:\n\n${elements.join(
+      '\n',
+    )}\n\n`;
+    const { data } = await client.createCompletion({
+      model: 'text-davinci-003',
+      prompt,
+      n: 1,
+      stop: ['\n\n'],
+    });
 
-      const prompt = `Analyze the sentiment for ${company} on ${MEDIA[media]} based on the comments:\n\n${elements.join(
-        '\n',
-      )}\n\n`;
-      const { data } = await this.client.createCompletion({
-        model: 'text-davinci-003',
-        prompt,
-        n: 1,
-        stop: ['\n\n'],
-      });
-
-      return data.choices[0].text?.trim();
-    };
-  }
+    return data.choices[0].text?.trim();
+  };
 }

@@ -1,5 +1,5 @@
 import Sentiment from 'sentiment';
-import { ScoreStrategyType } from '../../types';
+import { ScoreStrategyType, SENTIMENTS, SentimentsType } from '../../types';
 import { getSentimentType } from '../../helpers/getSentimentType';
 
 export const evaluateScores = async (
@@ -10,8 +10,12 @@ export const evaluateScores = async (
   const client = new Sentiment();
 
   return Promise.all(items.map(item => {
-    const { score } = client.analyze(item);
+    if (!item) {
+      return { category: SENTIMENTS.undefined as unknown as SentimentsType };
+    }
 
-    return { score, category: getSentimentType(score, scoreThreshold) };
+    const { comparative } = client.analyze(item);
+
+    return { score: comparative, category: getSentimentType(comparative, scoreThreshold) };
   }));
 };

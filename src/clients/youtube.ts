@@ -3,20 +3,12 @@ import { YOUTUBE } from '../constants';
 import { DateRange } from '../types';
 
 export namespace YoutubeClient {
-  const get = (): ReturnType<typeof google.youtube> =>
-    google.youtube({
-      version: 'v3',
-      auth: YOUTUBE.API_KEY,
-    });
-
-  export const getComments = async (
+  export const getSearchResult = async (
+    client: ReturnType<typeof google.youtube>,
     company: string,
     { since, until }: DateRange,
-    videoCount = YOUTUBE.COUNT.VIDEO,
-    commentsCount = YOUTUBE.COUNT.COMMENTS,
-  ): Promise<string[]> => {
-    const client = get();
-
+    videoCount: number,
+  ) => {
     const searchResult = await client.search.list({
       part: ['id'],
       q: `${company} video`,
@@ -26,21 +18,37 @@ export namespace YoutubeClient {
       publishedBefore: until,
     });
 
-    const videoIds = searchResult.data.items?.map((item: any) => item.id?.videoId).join(',');
-    const commentResult = await client.commentThreads.list({
-      part: ['snippet'],
-      videoId: videoIds,
-      maxResults: commentsCount,
-    });
+    return searchResult.data.items?.map((item: any) => item.id?.videoId).join(',');
+  };
 
-    const comments: string[] = [];
-    commentResult.data.items?.forEach((item: any) => {
-      const comment = item.snippet?.topLevelComment?.snippet;
-      if (comment) {
-        comments.push(comment.textDisplay!);
+  export const getComments = async (
+    company: string,
+    timerange: DateRange,
+    videoCount: number,
+    commentsCount: number,
+  ): Promise<string[]> => {
+    try {
+      const client: ReturnType<typeof google.youtube> =
+        google.youtube({
+          version: 'v3',
+          auth: YOUTUBE.API_KEY,
+        });
+
+      const videoIds = await getSearchResult(client, company, timerange, videoCount);
+      if (!videoIds) {
+        return [];
       }
-    });
 
-    return comments;
+      const commentResult = await client.commentThreads.list({
+        part: ['snippet'],
+        videoId: videoIds,
+        maxResults: commentsCount,
+      });
+
+      return (commentResult.data.items || []).map((item: any) => item.snippet?.topLevelComment?.snippet?.textDisplay);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   };
 }

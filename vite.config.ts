@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     coverage: {
-      exclude: [...configDefaults.exclude, '**/utils/*'],
+      exclude: [...configDefaults.exclude, '**/utils/*', '**/index.ts', '**/__tests__/*'],
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
       enabled: true,
@@ -18,6 +18,9 @@ export default defineConfig({
         functions: [30, 85],
         lines: [80, 95],
       },
+    },
+    onConsoleLog () {
+      return false;
     },
   },
 });

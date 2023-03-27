@@ -9,21 +9,14 @@ export const INSTAGRAM = {
 };
 
 export const TWITTER = {
-  CONFIG: {
-    APP_KEY: `${process.env.TWITTER_APP_KEY}`,
-    APP_SECRET: `${process.env.TWITTER_APP_SECRET}`,
-    ACCESS_TOKEN: `${process.env.TWITTER_ACCESS_TOKEN}`,
-    ACCESS_TOKEN_SECRET: `${process.env.TWITTER_ACCESS_TOKEN_SECRET}`,
-  },
-  COUNT: Number(process.env.TWITTER_TWEET_COUNT ?? 100),
+  APP_KEY: `${process.env.TWITTER_APP_KEY}`,
+  APP_SECRET: `${process.env.TWITTER_APP_SECRET}`,
+  ACCESS_TOKEN: `${process.env.TWITTER_ACCESS_TOKEN}`,
+  ACCESS_TOKEN_SECRET: `${process.env.TWITTER_ACCESS_TOKEN_SECRET}`,
 };
 
 export const YOUTUBE = {
   API_KEY: `${process.env.YUOTUBE_API_KEY}`,
-  COUNT: {
-    VIDEO: Number(process.env.YOUTUBE_VIDEO_COUNT ?? 1000),
-    COMMENTS: Number(process.env.YOUTUBE_COMMENTS_PER_VIDEO_COUNT ?? 100),
-  },
 };
 
 export const TIKTOK = {
@@ -39,7 +32,20 @@ export const OPENAI = {
 };
 
 export const CONFIG = {
-  SCAN_PERIOD_DAYS: Number(process.env.SCAN_PERIOD_DAYS ?? 7),
-  STRATEGY_PROVIDER: process.env.STRATEGY_PROVIDER ?? 'afinn',
-  SCORE_THRESHOLD: Number(process.env.PROCESS_THRESHOLD ?? 0.3),
+  MEDIA_ENABLED: process.env.SENTIMENT_MEDIA_ENABLED,
+  SCAN_PERIOD_DAYS: Number(process.env.SENTIMENT_SCAN_PERIOD_DAYS ?? 7),
+  STRATEGY_PROVIDER: process.env.SENTIMENT_STRATEGY_PROVIDER ?? 'afinn',
+  SCORE_THRESHOLD: Number(process.env.SENTIMENT_PROCESS_THRESHOLD ?? 0.3),
+  TWITTER: {
+    COUNT: Number(process.env.SENTIMENT_TWITTER_TWEET_COUNT ?? 100),
+  },
+  YOUTUBE: {
+    COUNT: {
+      VIDEO: Number(process.env.SENTIMENT_YOUTUBE_VIDEO_COUNT ?? 1000),
+      COMMENTS: Number(process.env.SENTIMENT_YOUTUBE_COMMENTS_PER_VIDEO_COUNT ?? 100),
+    },
+  },
+  TIKTOK: {
+    COUNT: Number(process.env.SENTIMENT_TIKTOK_VIDEO_COUNT ?? 200),
+  },
 };

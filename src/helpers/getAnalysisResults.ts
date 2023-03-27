@@ -8,6 +8,14 @@ export const getAnalysisResults = async (
   strategyType: StrategyType,
   scoreThreshold: number,
 ): Promise<AnalysisResultType> => {
+  if (!company) {
+    throw new Error('Missing argument: company');
+  }
+
+  if (!items || !items.length) {
+    return null;
+  }
+
   const sentimentStats: SentimentValues = { positive: 0, negative: 0, neutral: 0, undefined: 0 };
   const strategy = strategyProvider(strategyType);
 

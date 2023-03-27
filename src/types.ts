@@ -40,12 +40,12 @@ export type SentimentAnalysisResult = {
 };
 
 export enum MEDIA {
-  facebook = 'FACEBOOK',
-  instagram = 'INSTAGRAM',
-  news = 'NEWS',
-  tiktok = 'TIKTOK',
-  twitter = 'TWITTER',
-  youtube = 'YOUTUBE',
+  facebook = 'facebook',
+  instagram = 'instagram',
+  news = 'news',
+  tiktok = 'tiktok',
+  twitter = 'twitter',
+  youtube = 'youtube',
 }
 
 export type MediaType = keyof typeof MEDIA;
@@ -53,7 +53,7 @@ export type MediaType = keyof typeof MEDIA;
 export type AnalysisResultType = {
   sentimentStats: SentimentValues;
   scores: Score[];
-};
+} | null;
 
 export type CallbackFunctionType = (...args: any[]) => any;
 
@@ -65,9 +65,9 @@ export type ProviderFunctionType = (
 ) => Promise<AnalysisResultType>;
 
 export enum STRATEGIES {
-  google = 'GOOGLE',
-  afinn = 'AFINN',
-  vader = 'VADER',
+  google = 'google',
+  afinn = 'afinn',
+  vader = 'vader',
 }
 
 export type StrategyType = keyof typeof STRATEGIES;

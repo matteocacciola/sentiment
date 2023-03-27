@@ -7,13 +7,13 @@ export namespace TiktokClient {
   const apiVersion = 'v1';
   const accessToken = TIKTOK.ACCESS_TOKEN;
 
-  async function getCompanyVideos(company: string, { since, until }: DateRange): Promise<any[]> {
+  async function getCompanyVideos(company: string, { since, until }: DateRange, count: number): Promise<any[]> {
     try {
-      const { data } = await Axios.get(`${baseUrl}/${apiVersion}/search/`, {
+      const { videos } = await Axios.get(`${baseUrl}/${apiVersion}/search/`, {
         params: {
           access_token: accessToken,
           q: company,
-          count: 200,
+          count,
           sort: 'likes',
           start_time: since,
           end_time: until,
@@ -21,16 +21,19 @@ export namespace TiktokClient {
         },
       });
 
-      return data;
+      return videos;
     } catch (error) {
       console.error(error);
       return [];
     }
   }
 
-  export const getCaptions = async (company: string, timerange: DateRange): Promise<string[]> => {
-    const videos = await getCompanyVideos(company, timerange);
+  export const getCaptions = async (company: string, timerange: DateRange, count: number): Promise<string[]> => {
+    const videos = await getCompanyVideos(company, timerange, count);
+    if (!videos) {
+      return [];
+    }
 
-    return videos.map(video => video.desc);
+    return videos.map(video => `${video.desc ?? video.video_description} ${video.voice_to_text ?? ''}`.trim());
   };
 }

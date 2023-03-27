@@ -17,13 +17,22 @@ export namespace NewsClient {
   const apiKey = NEWS.API_KEY;
 
   export const getNews = async (company: string, { since, until }: DateRange): Promise<string[]> => {
-    const { articles } = await Axios.get<NewsApiResponse>(baseUrl, {
-      q: company,
-      apiKey,
-      from: since,
-      to: until,
-    });
+    try {
+      const { articles } = await Axios.get<NewsApiResponse>(baseUrl, {
+        q: company,
+        apiKey,
+        from: since,
+        to: until,
+      });
 
-    return articles.map((article) => `${article.title} ${article.description}`);
+      if (!articles) {
+        return [];
+      }
+
+      return articles.map((article) => `${article.description}`);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   };
 }

@@ -17,12 +17,12 @@ const evaluateScoresMock = vitest.fn().mockResolvedValue([
   { score: 0, category: 'neutral' },
 ]);
 
-beforeEach(() => {
-  mockedStrategyProvider = vitest.spyOn(strategyProvider, 'strategyProvider')
-    .mockReturnValue({ evaluateScores: evaluateScoresMock });
-});
-
 describe('getAnalysisResults', () => {
+  beforeEach(() => {
+    mockedStrategyProvider = vitest.spyOn(strategyProvider, 'strategyProvider')
+      .mockReturnValue({ evaluateScores: evaluateScoresMock });
+  });
+
   it('should return the expected sentiment stats and scores', async () => {
     const expectedResult = {
       sentimentStats: { positive: 1, negative: 1, neutral: 1, undefined: 0 },
@@ -44,5 +44,15 @@ describe('getAnalysisResults', () => {
   it('should call evaluateScores with the correct parameters', async () => {
     await getAnalysisResults(company, media, items, strategyType, scoreThreshold);
     expect(evaluateScoresMock).toHaveBeenCalledWith(company, items, scoreThreshold);
+  });
+
+  it('should throw an error if company argument is missing', async () => {
+    await expect(getAnalysisResults(undefined as unknown as string, media, items, strategyType, scoreThreshold))
+      .rejects.toThrowError('Missing argument: company');
+  });
+
+  it.each([undefined, []])('should return null if items argument is missing or empty', async (item) => {
+    expect(await getAnalysisResults(company, media, item as unknown as string[], strategyType, scoreThreshold))
+      .toBeNull();
   });
 });

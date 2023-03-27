@@ -7,15 +7,20 @@ export namespace FacebookClient {
   const accessToken = FACEBOOK.ACCESS_TOKEN;
 
   export const getPosts = async (company: string, { since, until }: DateRange): Promise<string[]> => {
-    const data = await Axios.get(baseUrl, {
-      q: company,
-      type: 'post',
-      fields: 'message,created_time',
-      access_token: accessToken,
-      since,
-      until,
-    });
+    try {
+      const data = await Axios.get(baseUrl, {
+        q: company,
+        type: 'post',
+        fields: 'message,created_time',
+        access_token: accessToken,
+        since,
+        until,
+      });
 
-    return data.data.map((post: any) => post.message);
+      return data.map((post: any) => post.message);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   };
 }
