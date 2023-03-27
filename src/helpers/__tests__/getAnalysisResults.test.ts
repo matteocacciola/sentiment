@@ -5,23 +5,24 @@ import * as strategyProvider from '../../strategies/provider';
 
 let mockedStrategyProvider: SpyInstance;
 
+const company = 'Test Company';
+const media: MediaType = 'twitter';
+const items = ['item 1', 'item 2', 'item 3'];
+const strategyType: StrategyType = 'afinn';
+const scoreThreshold = 0;
+
+const evaluateScoresMock = vitest.fn().mockResolvedValue([
+  { score: 0.5, category: 'positive' },
+  { score: -0.5, category: 'negative' },
+  { score: 0, category: 'neutral' },
+]);
+
+beforeEach(() => {
+  mockedStrategyProvider = vitest.spyOn(strategyProvider, 'strategyProvider')
+    .mockReturnValue({ evaluateScores: evaluateScoresMock });
+});
+
 describe('getAnalysisResults', () => {
-  const company = 'Test Company';
-  const media: MediaType = 'twitter';
-  const items = ['item 1', 'item 2', 'item 3'];
-  const strategyType: StrategyType = 'afinn';
-  const scoreThreshold = 0;
-
-  const evaluateScoresMock = vitest.fn().mockResolvedValue([
-    { score: 0.5, category: 'positive' },
-    { score: -0.5, category: 'negative' },
-    { score: 0, category: 'neutral' },
-  ]);
-
-  beforeEach(() => {
-    mockedStrategyProvider = vitest.spyOn(strategyProvider, 'strategyProvider')
-      .mockReturnValue({ evaluateScores: evaluateScoresMock });  });
-
   it('should return the expected sentiment stats and scores', async () => {
     const expectedResult = {
       sentimentStats: { positive: 1, negative: 1, neutral: 1, undefined: 0 },
