@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist/",
+    "rootDir": "./src/",
+    "paths": {},
+  },
+  // Only files to build
+  "include": ["src/**/*"],
+  "exclude": ["./src/**/*.test.ts"]
+}

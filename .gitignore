@@ -1,0 +1,18 @@
+# app
+logs
+dist
+coverage
+
+# node / npm
+*.log
+node_modules
+.eslintcache
+
+# PHPStorm files
+.idea
+.DS_Store
+install.log
+
+# app
+.env*
+tsconfig-build.tsbuildinfo

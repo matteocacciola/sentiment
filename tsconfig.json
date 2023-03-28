@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "incremental": true,
+    "module": "commonjs",
+    "target": "ES2021",
+    "allowJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist/",
+    "rootDir": "./",
+    "strict": true,
+    "skipLibCheck": true,
+    "alwaysStrict": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "typeRoots": ["node_modules/@types"],
+    // 2021-03-30: Temporary workaround while tsconfig-paths and eslint-import-resolver-typescript get updated to support tsconfig "paths" without a "baseUrl"
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules"],
+  "include": [".eslintrc.js",
+    "vite.config.ts", "./src/**/*.ts", "package.json"]
+}
