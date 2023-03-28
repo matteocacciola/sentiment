@@ -24,11 +24,11 @@ describe('Google Cloud evaluateScores', () => {
     vitest.clearAllMocks();
   });
 
-  it('should evaluate sentiment scores of all items using the Google Cloud Language API', async () => {
-    const company = 'Google';
-    const items = ['This is great!', 'This is bad!', 'This is neutral.'];
-    const scoreThreshold = 0.5;
+  const company = 'Google';
+  const items = ['This is great!', 'This is bad!', 'This is neutral.'];
+  const scoreThreshold = 0.5;
 
+  it('should evaluate sentiment scores of all items using the Google Cloud Language API', async () => {
     const result = await evaluateScores(company, items, scoreThreshold);
 
     expect(result).toHaveLength(items.length);
@@ -43,9 +43,6 @@ describe('Google Cloud evaluateScores', () => {
   });
 
   it('should handle undefined scores and return a category of undefined', async () => {
-    const company = 'Google';
-    const items = ['This is great!', 'This is bad!', 'This is neutral.'];
-    const scoreThreshold = 0.5;
     const expectedResults = [
       { category: 'undefined' },
       { category: 'undefined' },

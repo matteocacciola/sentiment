@@ -23,6 +23,7 @@ export type Score = {
 export type ScoreStrategyType = {
   score?: number;
   category: SentimentsType;
+  probability?: number;
 }
 
 export type SentimentAnalysisResult = {
@@ -68,6 +69,7 @@ export enum STRATEGIES {
   google = 'google',
   afinn = 'afinn',
   vader = 'vader',
+  bayes = 'bayes',
 }
 
 export type StrategyType = keyof typeof STRATEGIES;
