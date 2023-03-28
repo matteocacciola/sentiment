@@ -16,7 +16,7 @@ export const TWITTER = {
 };
 
 export const YOUTUBE = {
-  API_KEY: `${process.env.YUOTUBE_API_KEY}`,
+  API_KEY: `${process.env.YOUTUBE_API_KEY}`,
 };
 
 export const TIKTOK = {
@@ -41,7 +41,7 @@ export const CONFIG = {
   },
   YOUTUBE: {
     COUNT: {
-      VIDEO: Number(process.env.SENTIMENT_YOUTUBE_VIDEO_COUNT ?? 1000),
+      VIDEO: Number(process.env.SENTIMENT_YOUTUBE_VIDEO_COUNT ?? 100),
       COMMENTS: Number(process.env.SENTIMENT_YOUTUBE_COMMENTS_PER_VIDEO_COUNT ?? 100),
     },
   },

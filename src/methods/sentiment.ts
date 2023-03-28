@@ -7,7 +7,7 @@ import { getCompanyMediaSentiment } from '../helpers/getCompanyMediaSentiment';
 type SentimentResult = Record<string, SentimentAnalysisResult | null>[];
 
 export const sentiment = async (company: string): Promise<SentimentResult> => {
-  const mediaConfigured = CONFIG.MEDIA_ENABLED?.split(',');
+  const mediaConfigured = CONFIG.MEDIA_ENABLED?.split(',').map(s => s.trim());
   const media = validator(mediaConfigured);
 
   const timerange = getTimerange(CONFIG.SCAN_PERIOD_DAYS);
@@ -19,7 +19,7 @@ export const sentiment = async (company: string): Promise<SentimentResult> => {
       medium,
       timerange,
       STRATEGY_PROVIDER as StrategyType,
-      SCORE_THRESHOLD,
+      Math.min(SCORE_THRESHOLD < 0 ? -SCORE_THRESHOLD : SCORE_THRESHOLD, 1),
     ) };
   }));
 };

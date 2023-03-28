@@ -62,5 +62,5 @@
     "lint:fix": "eslint 'src/**/*.ts' --fix --ext .js,.ts .",
     "test": "TZ=utc NODE_ENV=test vitest run --coverage"
   },
-  "version": "1.0.0"
+  "version": "1.1.0"
 }
