@@ -15,13 +15,13 @@ VADER or AFINN-based algorithms), which can be configured to your liking.
 ## Installation
 In order to install the library, please use
 ```
-npm i @matteocacciola/sentiment-analysis
+npm i @matteocacciola/sentiment
 ```
 
 ## Usage
 The usage is really simple
 ```typescript
-import { sentiment } from '@matteocacciola/sentiment-analysis'
+import { sentiment } from '@matteocacciola/sentiment'
 
 const results: Record<string, SentimentAnalysisResult | null>[] =
   sentiment('yourCompany');

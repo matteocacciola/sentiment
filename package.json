@@ -56,7 +56,7 @@
   ],
   "license": "MIT",
   "main": "dist/index.js",
-  "name": "@matteocacciola/sentiment-analysis",
+  "name": "@matteocacciola/sentiment",
   "private": false,
   "repository": {
     "type": "git",
