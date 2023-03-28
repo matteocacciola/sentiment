@@ -10,6 +10,7 @@
     "googleapis": "^113.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "node-sentiment": "https://github.com/martinrue/node-sentiment/tarball/master",
     "openai": "^3.2.1",
     "sentiment": "^5.0.2",
     "twitter-api-v2": "^1.14.2",
@@ -70,5 +71,5 @@
     "test": "TZ=utc NODE_ENV=test vitest run --coverage",
     "ci": "npm run lint && npm run build && npm run test"
   },
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

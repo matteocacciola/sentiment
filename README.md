@@ -10,7 +10,7 @@ about the Sentiment.
 
 OpenAI ChatGPT is used to build a short qualitative summary from the obtained information. Quantitative information
 related to the Sentiment are evaluated according to specific sources of truth (i.e., one among Google Natural Language,
-VADER or AFINN-based algorithms), which can be configured to your liking.
+VADER, AFINN-based or Naive Bayes algorithms), which can be configured to your liking.
 
 ## Installation
 In order to install the library, please use
@@ -65,7 +65,7 @@ Sentiment. As explained in the [Usage](#usage), you can list here one or more so
 
 **This configuration key is mandatory**. Example:
 ```dotenv
-SENTIMENT_MEDIA_ENABLED='facebook,twitter,tiktok'
+SENTIMENT_MEDIA_ENABLED=facebook,twitter,tiktok
 ```
 
 #### SENTIMENT_SCAN_PERIOD_DAYS
@@ -79,8 +79,11 @@ SENTIMENT_SCAN_PERIOD_DAYS=7
 
 #### SENTIMENT_STRATEGY_PROVIDER
 This key identifies the strategy to use for the evaluation of the scores and sentiments of the various collected data.
-As mentioned in the [Introduction](#sentiment-analysis-for-nodejs), it can be one among Google Natural Language,
-VADER or AFINN-based algorithms, identified by `google`, `vader` or `afinn` respectively.
+As mentioned in the [Introduction](#sentiment-analysis-for-nodejs), it can be one of the following algorithms:
+- AFINN (use `afinn` to set this algorithm);
+- Google Natural Language (identified by the `google` value);
+- VADER (corresponding to the `vader` setting);
+- Naive Bayes (`bayes`).
 
 **The default value is `afinn`**, which is even used when an invalid value is assigned to this key. Example:
 ```dotenv
