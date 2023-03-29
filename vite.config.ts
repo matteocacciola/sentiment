@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     coverage: {
-      exclude: [...configDefaults.exclude, '**/utils/*', '**/index.ts', '**/__tests__/*'],
+      exclude: [...configDefaults.exclude, '**/utils/*', '**/index.ts', '**/__tests__/*', './libraries/**'],
       provider: 'istanbul',
       reporter: ['text', 'json', 'html', 'lcov'],
       enabled: true,

@@ -1,2 +1,5 @@
 dist/*
 node_modules/*
+libraries/**/dist/*
+libraries/**/node_modules/*
+.eslintrc.js

@@ -1,11 +1,11 @@
 # app
 logs
-dist
+**/dist
 coverage
 
 # node / npm
 *.log
-node_modules
+**/node_modules
 .eslintcache
 
 # PHPStorm files

@@ -56,8 +56,6 @@ export type AnalysisResultType = {
   scores: Score[];
 } | null;
 
-export type CallbackFunctionType = (...args: any[]) => any;
-
 export type ProviderFunctionType = (
   company: string,
   timerange: DateRange,
