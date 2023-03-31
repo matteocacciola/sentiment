@@ -1,4 +1,4 @@
-import { SENTIMENTS, SentimentsType } from '../types';
+import { SentimentsType, SENTIMENTS } from '../types';
 
 export const getSentimentType = (score: number, threshold: number): SentimentsType => {
   if (score <= -threshold) {

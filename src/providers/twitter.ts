@@ -1,7 +1,8 @@
-import { AnalysisResultType, DateRange, ProviderFunctionType, StrategyType } from '../types';
+import { AnalysisResultType, DateRange, ProviderFunctionType } from '../types';
 import { TwitterClient } from '../clients/twitter';
-import { getAnalysisResults } from '../helpers/getAnalysisResults';
+import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
 import { CONFIG } from '../constants';
+import { StrategyType } from '../strategies/types';
 
 export const analyze: ProviderFunctionType = async (
   company: string,

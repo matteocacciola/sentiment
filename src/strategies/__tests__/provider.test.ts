@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { strategyProvider } from '../provider';
-import { STRATEGIES, StrategyType } from '../../types';
 import afinnStrategy from '../afinn';
+import { STRATEGIES, StrategyType } from '../types';
 
 describe('strategyProvider', () => {
   it('should return the corresponding strategy for a valid strategy type', () => {

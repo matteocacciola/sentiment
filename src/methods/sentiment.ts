@@ -1,8 +1,9 @@
-import { SentimentAnalysisResult, StrategyType } from '../types';
+import { SentimentAnalysisResult } from '../types';
 import { getTimerange } from '../helpers/getTimerange';
 import { CONFIG } from '../constants';
 import { validator } from '../validators/sentiment';
 import { getCompanyMediaSentiment } from '../helpers/getCompanyMediaSentiment';
+import { StrategyType } from '../strategies/types';
 
 type SentimentResult = Record<string, SentimentAnalysisResult | null>[];
 

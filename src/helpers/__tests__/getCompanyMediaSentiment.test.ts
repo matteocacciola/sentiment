@@ -1,5 +1,6 @@
 import { expect, describe, it, vitest, beforeEach } from 'vitest';
-import { DateRange, MediaType, StrategyType } from '../../types';
+import { DateRange, MediaType } from '../../types';
+import { StrategyType } from '../../strategies/types';
 import { FacebookClient } from '../../clients/facebook';
 import { InstagramClient } from '../../clients/instagram';
 import { NewsClient } from '../../clients/news';

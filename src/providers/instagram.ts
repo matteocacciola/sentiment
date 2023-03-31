@@ -1,6 +1,7 @@
 import { InstagramClient } from '../clients/instagram';
-import { AnalysisResultType, DateRange, ProviderFunctionType, StrategyType } from '../types';
-import { getAnalysisResults } from '../helpers/getAnalysisResults';
+import { AnalysisResultType, DateRange, ProviderFunctionType } from '../types';
+import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
+import { StrategyType } from '../strategies/types';
 
 export const analyze: ProviderFunctionType = async (
   company: string,

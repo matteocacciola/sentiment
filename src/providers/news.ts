@@ -1,6 +1,7 @@
-import { AnalysisResultType, DateRange, ProviderFunctionType, StrategyType } from '../types';
+import { AnalysisResultType, DateRange, ProviderFunctionType } from '../types';
 import { NewsClient } from '../clients/news';
-import { getAnalysisResults } from '../helpers/getAnalysisResults';
+import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
+import { StrategyType } from '../strategies/types';
 
 export const analyze: ProviderFunctionType = async (
   company: string,

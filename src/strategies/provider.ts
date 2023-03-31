@@ -1,6 +1,6 @@
-import { StrategyType } from '../types';
 import { cond, constant, stubTrue } from 'lodash';
 import { Strategy } from './interfaces';
+import { StrategyType } from './types';
 import googleStrategy from './google';
 import afinnStrategy from './afinn';
 import vaderStrategy from './vader';

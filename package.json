@@ -65,7 +65,7 @@
     "clean": "if [ -d 'dist/' ]; then rm -rf dist; fi; if [ -f 'tsconfig-build.tsbuildinfo' ]; then rm tsconfig-build.tsbuildinfo; fi",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' --fix --ext .js,.ts .",
-    "preinstall": "cd libraries/naive-bayes/ && npm install --no-package-lock --production=false",
+    "preinstall": "npm run build:bayes",
     "prebuild": "npm run clean && npm run build:bayes",
     "prepare": "husky install",
     "prepublishOnly": "npm run build",

@@ -1,30 +1,9 @@
+import { Score, SentimentValues, StrategyType } from './strategies/types';
+
 export type DateRange = {
   since: string;
   until: string;
 };
-
-export enum SENTIMENTS {
-  positive = 'positive',
-  negative = 'negative',
-  neutral = 'neutral',
-  undefined = 'undefined',
-}
-
-export type SentimentsType = keyof typeof SENTIMENTS;
-
-export type SentimentValues = Record<SentimentsType, number>;
-
-export type Score = {
-  text: string;
-  score?: number;
-  category?: SentimentsType;
-};
-
-export type ScoreStrategyType = {
-  score?: number;
-  category: SentimentsType;
-  probability?: number;
-}
 
 export type SentimentAnalysisResult = {
   positive: number;
@@ -62,12 +41,3 @@ export type ProviderFunctionType = (
   strategyType: StrategyType,
   scoreThreshold: number,
 ) => Promise<AnalysisResultType>;
-
-export enum STRATEGIES {
-  google = 'google',
-  afinn = 'afinn',
-  vader = 'vader',
-  bayes = 'bayes',
-}
-
-export type StrategyType = keyof typeof STRATEGIES;

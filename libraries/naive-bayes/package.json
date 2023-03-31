@@ -10,11 +10,11 @@
   "engines": {
     "node": "18.12.1"
   },
-  "files": ["dist/**"],
+  "files": ["dist", "package.json"],
   "main": "dist/index.js",
   "name": "@matteocacciola/naive-bayes-sentiment-classifier",
   "scripts": {
-    "build": "tsc",
+    "build": "npm install --no-package-lock --production=false && tsc",
     "clean": "if [ -d 'dist/' ]; then rm -rf dist; fi",
     "lint": "npm run prebuild && tsc --noEmit",
     "prebuild": "npm run clean",

@@ -1,7 +1,7 @@
 import { expect, describe, it, vitest, afterEach, Mock, afterAll } from 'vitest';
 import { LanguageServiceClient } from '@google-cloud/language';
-import { evaluateScores } from '../google/evaluateScores';
-import { SENTIMENTS } from '../../types';
+import strategy from '../google';
+import { SENTIMENTS } from '../types';
 
 afterAll(() => {
   vitest.resetAllMocks();
@@ -29,7 +29,7 @@ describe('Google Cloud evaluateScores', () => {
   const scoreThreshold = 0.5;
 
   it('should evaluate sentiment scores of all items using the Google Cloud Language API', async () => {
-    const result = await evaluateScores(company, items, scoreThreshold);
+    const result = await strategy.evaluateScores(company, items, scoreThreshold);
 
     expect(result).toHaveLength(items.length);
 
@@ -57,7 +57,7 @@ describe('Google Cloud evaluateScores', () => {
       ]),
     }));
 
-    const result = await evaluateScores(company, items, scoreThreshold);
+    const result = await strategy.evaluateScores(company, items, scoreThreshold);
 
     expect(result).toHaveLength(items.length);
     expect(LanguageServiceClient).toHaveBeenCalledTimes(1);

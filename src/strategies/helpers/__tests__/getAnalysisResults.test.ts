@@ -1,7 +1,8 @@
 import { expect, describe, it, vitest, beforeEach, SpyInstance } from 'vitest';
+import * as strategyProvider from '../../provider';
 import { getAnalysisResults } from '../getAnalysisResults';
-import { MediaType, StrategyType } from '../../types';
-import * as strategyProvider from '../../strategies/provider';
+import { MediaType } from '../../../types';
+import { StrategyType } from '../../types';
 
 let mockedStrategyProvider: SpyInstance;
 

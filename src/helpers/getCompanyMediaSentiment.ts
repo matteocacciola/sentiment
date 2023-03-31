@@ -1,6 +1,7 @@
-import { DateRange, MediaType, SentimentAnalysisResult, StrategyType } from '../types';
+import { DateRange, MediaType, SentimentAnalysisResult } from '../types';
 import { sentimentMediaFactory } from '../providers/factory';
 import { OpenAI } from '../utils/openai';
+import { StrategyType } from '../strategies/types';
 
 export const getCompanyMediaSentiment = async (
   company: string,

@@ -1,5 +1,5 @@
-import { ScoreStrategyType, SENTIMENTS, SentimentsType } from '../../types';
-import { getSentimentType } from '../../helpers/getSentimentType';
+import { getSentimentType } from '../helpers/getSentimentType';
+import { ScoreStrategyType, SentimentsType, SENTIMENTS } from '../types';
 
 const vader = require('vader-sentiment');
 
