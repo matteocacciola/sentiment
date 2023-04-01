@@ -17,7 +17,6 @@ const strategy: Strategy = {
        * NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
        */
       const { score } = client.analyze(item);
-      console.log({ item, score });
       const scaled = ((2 * score) / 5) - 1;
 
       return { score: scaled, category: getSentimentType(score, scoreThreshold) };

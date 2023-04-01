@@ -1,7 +1,7 @@
-import { Strategy } from './interfaces';
-import { ScoreStrategyType, SENTIMENTS, SentimentsType } from './types';
 import { LanguageServiceClient } from '@google-cloud/language';
 import { google } from '@google-cloud/language/build/protos/protos';
+import { Strategy } from './interfaces';
+import { ScoreStrategyType, SENTIMENTS, SentimentsType } from './types';
 import { getSentimentType } from './helpers/getSentimentType';
 
 const strategy: Strategy = {
@@ -10,13 +10,13 @@ const strategy: Strategy = {
 
     return Promise.all(items.map(async (item) => {
       const document = { content: item, type: google.cloud.language.v1.Document.Type.PLAIN_TEXT };
-      const [result] = await client.analyzeSentiment({ document });
+      const [{ documentSentiment: sentiment }] = await client.analyzeSentiment({ document });
 
-      const sentiment = result.documentSentiment;
       if (!sentiment?.score) {
         return { category: SENTIMENTS.undefined as unknown as SentimentsType };
       }
 
+      // sentiment.score is already within [-1, 1]
       return { score: sentiment.score, category: getSentimentType(sentiment.score, scoreThreshold) };
     }));
   },

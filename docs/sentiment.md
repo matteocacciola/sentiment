@@ -18,7 +18,7 @@ const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('you
 ```
 
 ### Options
-`options` is optional and has the format `{ strategy: StrategyType, scanPeriodDays: number; scoreThreshold: number; }`,
+`options` has the format `{ strategy: StrategyType, scanPeriodDays: number; scoreThreshold: number; }`,
 where:
 
 - `strategy`(default `afinn`) identifies the strategy to use for the evaluation of the scores and sentiments of the
@@ -27,14 +27,14 @@ where:
 - `scanPeriodDays` represents the number of days to use to collect Sentiment evaluation data (default 7)
 - `scoreThreshold` (default 0.3) identifies the "sentiment category" of a specific text. Loosely speaking, each
 "sentiment score" can range within the interval [-1, 1]:
-  - when the score is within [-1, -scoreThreshold], it is considered `negative`
-  - when the score is within `[-scoreThreshold, scoreThreshold]`, it is labelled `neutral`
+  - when the score is within `[-1, -scoreThreshold]`, it is considered `negative`
+  - when the score is within `]-scoreThreshold, scoreThreshold[`, it is labelled `neutral`
   - when the score is within `[scoreThreshold, 1]`, it is `positive`
   - finally, when no score can be retrieved, then the assigned category is `undefined`.
 
   A number greater than 1 is automatically scaled to one.
 
-### Results
+### Result
 Keys of `results` can be one of `facebook`, `instagram`, `news`, `tiktok`, `twitter`, `youtube`, whereas
 `SentimentAnalysisResult` has the format:
 ```typescript
@@ -88,7 +88,7 @@ SENTIMENT_TWITTER_TWEET_COUNT=100
 ```
 
 #### SENTIMENT_YOUTUBE_VIDEO_COUNT
-In case you want to use Youtube as one of your media to collect information about the Sentiment, this key can be used
+In case you want to use YouTube as one of your media to collect information about the Sentiment, this key can be used
 to set the number of videos to retrieve in the spanned time range. The videos are ordered by the descending number of
 interactions.
 
@@ -107,7 +107,7 @@ SENTIMENT_YOUTUBE_COMMENTS_PER_VIDEO_COUNT=100
 ```
 
 #### SENTIMENT_TIKTOK_VIDEO_COUNT
-Similarly to [Youtube](#sentimentyoutubevideocount), this key can be used with TikTok in order to set the number of videos
+Similarly to [YouTube](#sentimentyoutubevideocount), this key can be used with TikTok in order to set the number of videos
 used to retrieve the available information (i.e., captions) to evaluate the Sentiment. The videos are ordered by the
 descending number of interactions.
 
@@ -149,6 +149,6 @@ Twitter requires some settings to be used. Specifically: `TWITTER_APP_KEY`, `TWI
 
 You can consult the [official documentation](https://developer.twitter.com/en/docs/twitter-api) for more details.
 
-#### Youtube
-In order to use Youtube as well, you need to set your API key to the `YOUTUBE_API_KEY` environment variables.
+#### YouTube
+In order to use YouTube as well, you need to set your API key to the `YOUTUBE_API_KEY` environment variables.
 Please, login to the [Google Developers Console](https://console.cloud.google.com/apis/dashboard) for more details.

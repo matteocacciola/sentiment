@@ -14,6 +14,7 @@ const strategy: Strategy = {
         return { category: SENTIMENTS.undefined as unknown as SentimentsType };
       }
 
+      // compund is already within [-1, 1]
       const { compound: score } = vader.SentimentIntensityAnalyzer.polarity_scores(item);
 
       return { score, category: getSentimentType(score, scoreThreshold) };

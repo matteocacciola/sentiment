@@ -11,6 +11,7 @@ const strategy: Strategy = {
 
       const { sentiment: category, probability } = bayesSentiment(item);
 
+      // probability is within [0, 1]
       return { probability, category: category as SentimentsType };
     }));
   },

@@ -16,8 +16,8 @@ The usage is really simple
 ```typescript
 import { matching } from '@matteocacciola/sentiment'
 
-const results: MatchedAttributes = matching('yourText', sources);
-const results: MatchedAttributes = matching('yourText', sources, options);
+const result: MatchedAttributes = matching('yourText', sources);
+const result: MatchedAttributes = matching('yourText', sources, options);
 ```
 where `sources` identifies the array of elements to match with. Each source has the format:
 ```typescript
@@ -29,7 +29,7 @@ type DescriptiveSource = {
 with `rating` from 1 to 5.
 
 ### Options
-`options` is optional and has the format `{ strategy: StrategyType, scoreThreshold: number; }`, where
+`options` has the format `{ strategy: StrategyType, scoreThreshold: number; }`, where
 - `strategy`(default `afinn`) identifies the strategy to use for the evaluation of the scores and sentiments of the
   various collected data with `type StrategyType = 'afinn' | 'google' | 'vader' | 'bayes'`: AFINN; Google Natural
   Language; VADER; Naive Bayes (default `'afinn'`).
@@ -42,8 +42,8 @@ with `rating` from 1 to 5.
 
   A number greater than 1 is automatically scaled to one.
 
-### Results
-The results have the following format:
+### Result
+The result has the following format:
 ```typescript
 type MatchedAttributes = {
   overallMatch: number;
