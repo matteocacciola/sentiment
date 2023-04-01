@@ -12,14 +12,10 @@ const strategy: Strategy = {
         return { category: SENTIMENTS.undefined as unknown as SentimentsType };
       }
 
-      /*
-       * the score is within [0, 5] and I need to rescale within [-1, 1], by applying the formula
-       * NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
-       */
-      const { score } = client.analyze(item);
-      const scaled = ((2 * score) / 5) - 1;
+      // comparative is already within [-1, 1]
+      const { comparative: score } = client.analyze(item);
 
-      return { score: scaled, category: getSentimentType(score, scoreThreshold) };
+      return { score, category: getSentimentType(score, scoreThreshold) };
     }));
   },
 };

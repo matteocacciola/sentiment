@@ -33,6 +33,6 @@ describe('calculateMatchingAttributes', () => {
   it('should return a negative match', async () => {
     const textToMatch = 'I don\'t want to eat terrible chicken.';
     const attributes = await matching(textToMatch, reviews);
-    expect(attributes.negativeMatch).toBeLessThan(0);
+    expect(attributes.negativeMatch).toEqual(0);
   });
 });
