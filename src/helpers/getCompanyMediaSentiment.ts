@@ -9,7 +9,7 @@ export const getCompanyMediaSentiment = async (
   timerange: DateRange,
   strategyType: StrategyType,
   scoreThreshold: number,
-): Promise<SentimentAnalysisResult | null> => {
+): Promise<SentimentAnalysisResult> => {
   const result = await sentimentMediaFactory(media)(company, timerange, strategyType, scoreThreshold);
   if (!result) {
     return null;

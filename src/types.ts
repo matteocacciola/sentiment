@@ -17,7 +17,7 @@ export type SentimentAnalysisResult = {
   };
   sentimentScore: number;
   analyzedAt: string;
-};
+} | null;
 
 export enum MEDIA {
   facebook = 'facebook',
@@ -41,3 +41,14 @@ export type ProviderFunctionType = (
   strategyType: StrategyType,
   scoreThreshold: number,
 ) => Promise<AnalysisResultType>;
+
+export type DescriptiveSource = {
+  text: string;
+  rating: number;
+}
+
+export type MatchedAttributes = {
+  overallMatch: number;
+  positiveMatch: number;
+  negativeMatch: number;
+}

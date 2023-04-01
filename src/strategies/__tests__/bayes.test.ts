@@ -11,11 +11,9 @@ describe('Naive Bayes evaluateScores', () => {
     vitest.clearAllMocks();
   });
 
-  const company = 'Test Company';
-
   it('should return an array of probability objects', async () => {
     const items = ['This is a positive sentence', 'This is a negative sentence'];
-    const result = await strategy.evaluateScores(company, items);
+    const result = await strategy.evaluateScores(items);
 
     expect(result).toHaveLength(items.length);
     result.forEach(({ score, category, probability }) => {
@@ -27,7 +25,7 @@ describe('Naive Bayes evaluateScores', () => {
 
   it('should return an undefined category if an item with empty strings is passed', async () => {
     const items = [''];
-    const result = await strategy.evaluateScores(company, items);
+    const result = await strategy.evaluateScores(items);
 
     expect(result).toHaveLength(items.length);
     expect(result).toHaveLength(1);
@@ -38,7 +36,7 @@ describe('Naive Bayes evaluateScores', () => {
 
   it('should return an empty array when items array is empty', async () => {
     const items: string[] = [];
-    const result = await strategy.evaluateScores(company, items);
+    const result = await strategy.evaluateScores(items);
 
     expect(result).toEqual([]);
   });

@@ -4,8 +4,8 @@
     "email": "matteo.cacciola@gmail.com"
   },
   "dependencies": {
-    "@matteocacciola/naive-bayes-sentiment-classifier": "file:libraries/naive-bayes",
     "@google-cloud/language": "^5.2.1",
+    "@matteocacciola/naive-bayes-sentiment-classifier": "file:libraries/naive-bayes",
     "axios": "^1.3.4",
     "dotenv": "^16.0.3",
     "googleapis": "^113.0.0",
@@ -17,7 +17,7 @@
     "typescript": "^5.0.2",
     "vader-sentiment": "^1.1.3"
   },
-  "description": "Sentiment analysis functions using Twitter, Facebook, Instagram, TikTok, YouTube and News APIs",
+  "description": "Collection of functions for sentiment analysis",
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/sentiment": "^5.0.1",
@@ -38,7 +38,12 @@
   "engines": {
     "node": "18.12.1"
   },
-  "files": ["dist", "node_modules", "README.md", "package.json"],
+  "files": [
+    "dist",
+    "node_modules",
+    "README.md",
+    "package.json"
+  ],
   "keywords": [
     "sentiment",
     "analysis",
@@ -71,5 +76,5 @@
     "prepublishOnly": "npm run build",
     "test": "TZ=utc NODE_ENV=test vitest run --coverage"
   },
-  "version": "0.3.0"
+  "version": "1.0.0"
 }

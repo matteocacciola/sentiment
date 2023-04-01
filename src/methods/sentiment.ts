@@ -5,22 +5,31 @@ import { validator } from '../validators/sentiment';
 import { getCompanyMediaSentiment } from '../helpers/getCompanyMediaSentiment';
 import { StrategyType } from '../strategies/types';
 
-type SentimentResult = Record<string, SentimentAnalysisResult | null>[];
+type SentimentResult = Record<string, SentimentAnalysisResult>[];
 
-export const sentiment = async (company: string): Promise<SentimentResult> => {
+type SentimentConfig = {
+  strategy: StrategyType;
+  scanPeriodDays: number;
+  scoreThreshold: number;
+}
+
+export const sentiment = async (company: string, options?: SentimentConfig): Promise<SentimentResult> => {
+  const strategy = options?.strategy ?? 'afinn';
+  const scanPeriodDays = options?.scanPeriodDays ?? 7;
+  const scoreThreshold = options?.scoreThreshold ?? 0.3;
+
   const mediaConfigured = CONFIG.MEDIA_ENABLED?.split(',').map(s => s.trim());
   const media = validator(mediaConfigured);
 
-  const timerange = getTimerange(CONFIG.SCAN_PERIOD_DAYS);
-  const { STRATEGY_PROVIDER, SCORE_THRESHOLD } = CONFIG;
+  const timerange = getTimerange(scanPeriodDays);
 
   return Promise.all(media.map(async (medium) => {
     return { [medium]: await getCompanyMediaSentiment(
       company,
       medium,
       timerange,
-      STRATEGY_PROVIDER as StrategyType,
-      Math.min(SCORE_THRESHOLD < 0 ? -SCORE_THRESHOLD : SCORE_THRESHOLD, 1),
+      strategy,
+      Math.min(scoreThreshold < 0 ? -scoreThreshold : scoreThreshold, 1),
     ) };
   }));
 };

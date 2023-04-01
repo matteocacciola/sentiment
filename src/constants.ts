@@ -33,9 +33,6 @@ export const OPENAI = {
 
 export const CONFIG = {
   MEDIA_ENABLED: process.env.SENTIMENT_MEDIA_ENABLED,
-  SCAN_PERIOD_DAYS: Number(process.env.SENTIMENT_SCAN_PERIOD_DAYS ?? 7),
-  STRATEGY_PROVIDER: process.env.SENTIMENT_STRATEGY_PROVIDER ?? 'afinn',
-  SCORE_THRESHOLD: Number(process.env.SENTIMENT_PROCESS_THRESHOLD ?? 0.3),
   TWITTER: {
     COUNT: Number(process.env.SENTIMENT_TWITTER_TWEET_COUNT ?? 100),
   },

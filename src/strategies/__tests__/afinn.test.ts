@@ -11,12 +11,11 @@ describe('AFINN evaluateScores', () => {
     vitest.clearAllMocks();
   });
 
-  const company = 'Test Company';
   const scoreThreshold = 1;
 
   it('should return an array of score objects', async () => {
     const items = ['This is a positive sentence', 'This is a negative sentence'];
-    const result = await strategy.evaluateScores(company, items, scoreThreshold);
+    const result = await strategy.evaluateScores(items, scoreThreshold);
 
     expect(result).toHaveLength(items.length);
     result.forEach(({ score, category }) => {
@@ -27,7 +26,7 @@ describe('AFINN evaluateScores', () => {
 
   it('should return an undefined category if an item with empty strings is passed', async () => {
     const items = [''];
-    const result = await strategy.evaluateScores(company, items, scoreThreshold);
+    const result = await strategy.evaluateScores(items, scoreThreshold);
 
     expect(result).toHaveLength(items.length);
     expect(result).toHaveLength(1);
@@ -38,7 +37,7 @@ describe('AFINN evaluateScores', () => {
 
   it('should return an empty array when items array is empty', async () => {
     const items: string[] = [];
-    const result = await strategy.evaluateScores(company, items, scoreThreshold);
+    const result = await strategy.evaluateScores(items, scoreThreshold);
 
     expect(result).toEqual([]);
   });

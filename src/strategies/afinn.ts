@@ -4,11 +4,7 @@ import Sentiment from 'sentiment';
 import { getSentimentType } from './helpers/getSentimentType';
 
 const strategy: Strategy = {
-  async evaluateScores(
-    company: string,
-    items: string[],
-    scoreThreshold: number,
-  ): Promise<ScoreStrategyType[]> {
+  async evaluateScores(items: string[], scoreThreshold: number): Promise<ScoreStrategyType[]> {
     const client = new Sentiment();
 
     return Promise.all(items.map(item => {
@@ -16,9 +12,15 @@ const strategy: Strategy = {
         return { category: SENTIMENTS.undefined as unknown as SentimentsType };
       }
 
-      const { comparative } = client.analyze(item);
+      /*
+       * the score is within [0, 5] and I need to rescale within [-1, 1], by applying the formula
+       * NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+       */
+      const { score } = client.analyze(item);
+      console.log({ item, score });
+      const scaled = ((2 * score) / 5) - 1;
 
-      return { score: comparative, category: getSentimentType(comparative, scoreThreshold) };
+      return { score: scaled, category: getSentimentType(score, scoreThreshold) };
     }));
   },
 };
