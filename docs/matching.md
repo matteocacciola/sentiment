@@ -35,7 +35,7 @@ with `rating` from 1 to 5.
   Language; VADER; Naive Bayes (default `'afinn'`).
 - `scoreThreshold` (default 0.3) identifies the "sentiment category" of a specific text. Loosely speaking, each
   "sentiment score" can range within the interval [-1, 1]:
-  - when the score is within [-1, -scoreThreshold], it is considered `negative`
+  - when the score is within `[-1, -scoreThreshold]`, it is considered `negative`
   - when the score is within `[-scoreThreshold, scoreThreshold]`, it is labelled `neutral`
   - when the score is within `[scoreThreshold, 1]`, it is `positive`
   - finally, when no score can be retrieved, then the assigned category is `undefined`.
