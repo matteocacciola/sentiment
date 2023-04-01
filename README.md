@@ -6,7 +6,7 @@ This library aims to provide a support for the analysis of texts, like the evalu
 Please, consult the various methods here provided in order to have a wide overview of the possible features provided
 by this library.
 
-- [Sentiment Analysis of Companies](./docs/sentiment.md)
+- [Sentiment Analysis](./docs/sentiment.md)
 - [Text Matching based on Sentiment Analysis](./docs/matching.md)
 
 ## Installation

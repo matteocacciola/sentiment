@@ -1,4 +1,4 @@
-# Sentiment Analysis for Node.js
+# Sentiment Analysis
 
 This method aims to provide a support for the analysis of the Sentiment of a Company, Institution, Public Entity
 or similar. This method analyses the most famous Social Media as well as source on Web in order to provide suitable information

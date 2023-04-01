@@ -1,4 +1,4 @@
-# Text matching for Node.js
+# Text matching
 
 This method aims to provide a text matching, based on configurable algorithms to compare descriptive text with a list
 of provided texts and calculate degree of match.
