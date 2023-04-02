@@ -75,5 +75,5 @@
     "prepublishOnly": "npm run build",
     "test": "TZ=utc NODE_ENV=test vitest run --coverage"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
