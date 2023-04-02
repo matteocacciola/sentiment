@@ -1,7 +1,7 @@
 import { DateRange, MediaType, SentimentAnalysisResult } from '../types';
 import { sentimentMediaFactory } from '../providers/factory';
 import { OpenAI } from '../utils/openai';
-import { StrategyType } from '../strategies/types';
+import { ScoreStrategyOptions, StrategyType } from '../strategies/types';
 
 export const getCompanyMediaSentiment = async (
   company: string,
@@ -9,8 +9,9 @@ export const getCompanyMediaSentiment = async (
   timerange: DateRange,
   strategyType: StrategyType,
   scoreThreshold: number,
+  strategyOptions?: ScoreStrategyOptions,
 ): Promise<SentimentAnalysisResult> => {
-  const result = await sentimentMediaFactory(media)(company, timerange, strategyType, scoreThreshold);
+  const result = await sentimentMediaFactory(media)(company, timerange, strategyType, scoreThreshold, strategyOptions);
   if (!result) {
     return null;
   }

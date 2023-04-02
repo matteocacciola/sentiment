@@ -1,3 +1,5 @@
+import { ClientOptions } from 'google-gax';
+
 export enum SENTIMENTS {
   positive = 'positive',
   negative = 'negative',
@@ -29,3 +31,11 @@ export type ScoreStrategyType = {
   category: SentimentsType;
   probability?: number;
 }
+
+type GoogleStategyOptions = ClientOptions;
+export type BayesStrategyOptions = {
+  positivePath: string;
+  negativePath: string;
+}
+
+export type ScoreStrategyOptions = GoogleStategyOptions | BayesStrategyOptions;

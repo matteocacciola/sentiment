@@ -1,4 +1,4 @@
-import { Score, SentimentValues, StrategyType } from './strategies/types';
+import { Score, ScoreStrategyOptions, SentimentValues, StrategyType } from './strategies/types';
 
 export type DateRange = {
   since: string;
@@ -40,6 +40,7 @@ export type ProviderFunctionType = (
   timerange: DateRange,
   strategyType: StrategyType,
   scoreThreshold: number,
+  strategyOptions?: ScoreStrategyOptions,
 ) => Promise<AnalysisResultType>;
 
 export type DescriptiveSource = {

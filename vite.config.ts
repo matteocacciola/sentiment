@@ -2,9 +2,8 @@ import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    environment: 'node',
     coverage: {
-      exclude: [...configDefaults.exclude, '**/utils/*', '**/index.ts', '**/__tests__/*', './libraries/**'],
+      exclude: [...configDefaults.exclude, '**/utils/*', '**/index.ts', '**/__tests__/*', '**/libraries/*'],
       provider: 'istanbul',
       reporter: ['text', 'json', 'html', 'lcov'],
       enabled: true,
@@ -19,6 +18,7 @@ export default defineConfig({
         lines: [80, 95],
       },
     },
+    environment: 'node',
     onConsoleLog () {
       return false;
     },

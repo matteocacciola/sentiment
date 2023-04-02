@@ -33,7 +33,7 @@ describe('Google Cloud evaluateScores', () => {
     expect(result).toHaveLength(items.length);
 
     expect(LanguageServiceClient).toHaveBeenCalledTimes(1);
-    expect(LanguageServiceClient).toHaveBeenCalledWith();
+    expect(LanguageServiceClient).toHaveBeenCalledWith(undefined);
 
     result.forEach(({ score, category }) => {
       expect(score).toBeTypeOf('number');
@@ -60,7 +60,7 @@ describe('Google Cloud evaluateScores', () => {
 
     expect(result).toHaveLength(items.length);
     expect(LanguageServiceClient).toHaveBeenCalledTimes(1);
-    expect(LanguageServiceClient).toHaveBeenCalledWith();
+    expect(LanguageServiceClient).toHaveBeenCalledWith(undefined);
     expect(result).toEqual(expectedResults);
   });
 });

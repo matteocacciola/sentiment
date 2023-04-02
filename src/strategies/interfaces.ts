@@ -1,5 +1,9 @@
-import { ScoreStrategyType } from './types';
+import { ScoreStrategyOptions, ScoreStrategyType } from './types';
 
 export interface Strategy {
-  evaluateScores(items: string[], scoreThreshold?: number): Promise<ScoreStrategyType[]>;
+  evaluateScores(
+    items: string[],
+    scoreThreshold?: number,
+    strategyOptions?: ScoreStrategyOptions,
+  ): Promise<ScoreStrategyType[]>;
 }

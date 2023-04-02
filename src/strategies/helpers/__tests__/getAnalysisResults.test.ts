@@ -44,7 +44,7 @@ describe('getAnalysisResults', () => {
 
   it('should call evaluateScores with the correct parameters', async () => {
     await getAnalysisResults(company, media, items, strategyType, scoreThreshold);
-    expect(evaluateScoresMock).toHaveBeenCalledWith(items, scoreThreshold);
+    expect(evaluateScoresMock).toHaveBeenCalledWith(items, scoreThreshold, undefined);
   });
 
   it('should throw an error if company argument is missing', async () => {

@@ -1,6 +1,6 @@
+import Sentiment from 'sentiment';
 import { Strategy } from './interfaces';
 import { ScoreStrategyType, SENTIMENTS, SentimentsType } from './types';
-import Sentiment from 'sentiment';
 import { getSentimentType } from './helpers/getSentimentType';
 
 const strategy: Strategy = {
