@@ -13,15 +13,17 @@ The usage is really simple
 ```typescript
 import { sentiment } from '@matteocacciola/sentiment'
 
-const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany');
-const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', options);
+const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media);
+const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media, options);
 ```
+The `media` parameter is an array listing all the source media you wish to use for the evaluation of the
+Sentiment. As explained in the [Usage](#usage), you can list here one or more sources among `'facebook'`, `'instagram'`,
+`'news'`, `'tiktok'`, `'twitter'`, `'youtube'`.
 
-### Options
-`options` has the format `{ strategy: StrategyType, scanPeriodDays: number; scoreThreshold: number; strategyOptions: ScoreStrategyOptions }`,
+The `options` has the format `{ strategy: StrategyType, scanPeriodDays: number; scoreThreshold: number; strategyOptions: ScoreStrategyOptions }`,
 where:
 
-- `strategy`(default `afinn`) identifies the strategy to use for the evaluation of the scores and sentiments of the
+- `strategy`(default `'afinn'`) identifies the strategy to use for the evaluation of the scores and sentiments of the
   various collected data with `type StrategyType = 'afinn' | 'google' | 'vader' | 'bayes'`: AFINN; Google Natural
   Language; VADER; Naive Bayes (default `'afinn'`).
 - `scanPeriodDays` represents the number of days to use to collect Sentiment evaluation data (default 7)
@@ -36,7 +38,7 @@ where:
   according to the [documentation of the Naive Bayes library](./libraries/naive-bayes.md#data).
 
 ### Result
-Keys of `results` can be one of `facebook`, `instagram`, `news`, `tiktok`, `twitter`, `youtube`, whereas
+Keys of `results` can be one of `'facebook'`, `'instagram'`, `'news'`, `'tiktok'`, `'twitter'`, `'youtube'`, whereas
 `SentimentAnalysisResult` has the format:
 ```typescript
 type SentimentAnalysisResult = {
@@ -67,16 +69,6 @@ The method is fully configurable.
 You can use environment variables to configure the library.
 
 ### Package configuration
-
-#### SENTIMENT_MEDIA_ENABLED
-This configuration key is a comma-separated value listing all the source media you wish to use for the evaluation of the
-Sentiment. As explained in the [Usage](#usage), you can list here one or more sources among `facebook`, `instagram`,
-`news`, `tiktok`, `twitter`, `youtube`.
-
-**This configuration key is mandatory**. Example:
-```dotenv
-SENTIMENT_MEDIA_ENABLED=facebook,twitter,tiktok
-```
 
 #### SENTIMENT_TWITTER_TWEET_COUNT
 In case you want to use Twitter as one of your media to collect information about the Sentiment, this key can be used
