@@ -1,6 +1,6 @@
-import { bayesSentiment } from '@matteocacciola/naive-bayes-sentiment-classifier';
 import { Strategy } from './interfaces';
 import { BayesStrategyOptions, ScoreStrategyOptions, ScoreStrategyType, SENTIMENTS, SentimentsType } from './types';
+import { bayesSentiment } from '../libraries/naive-bayes';
 
 const strategy: Strategy = {
   async evaluateScores(

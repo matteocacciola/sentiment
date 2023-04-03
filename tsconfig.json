@@ -21,10 +21,8 @@
     "baseUrl": "."
   },
   "include": [
-    "libraries/**/src/**/*",
     "src/**/*.ts",
     "package.json",
-    "vite.config.ts",
-  ],
-  "exclude": ["libraries/**/src/index.ts"]
+    "vite.config.ts"
+  ]
 }
