@@ -1,4 +1,4 @@
-import { AnalysisResultType, DateRange, ProviderFunctionType } from '../types';
+import { AnalysisResultType, DateRange, ProviderFunctionType, SentimentConfigurationType } from '../types';
 import { NewsClient } from '../clients/news';
 import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
 import { ScoreStrategyOptions, StrategyType } from '../strategies/types';
@@ -8,9 +8,13 @@ export const analyze: ProviderFunctionType = async (
   timerange: DateRange,
   strategyType: StrategyType,
   scoreThreshold: number,
+  configuration: SentimentConfigurationType,
   strategyOptions?: ScoreStrategyOptions,
 ): Promise<AnalysisResultType> => {
-  const articles = await NewsClient.getNews(company, timerange);
+  if (!configuration.news) {
+    throw new Error('Invalid NewsAPI configuration');
+  }
+  const articles = await NewsClient.getNews(company, timerange, configuration.news);
 
-  return getAnalysisResults(company, 'news', articles, strategyType, scoreThreshold, strategyOptions);
+  return getAnalysisResults(company, articles, strategyType, scoreThreshold, strategyOptions);
 };

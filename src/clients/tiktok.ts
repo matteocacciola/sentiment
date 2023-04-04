@@ -1,13 +1,16 @@
-import { TIKTOK } from '../constants';
 import { Axios } from '../utils/axios';
 import { DateRange } from '../types';
+import { TiktokClientType } from './types';
 
 export namespace TiktokClient {
   const baseUrl = 'https://api.tiktok.com';
   const apiVersion = 'v1';
-  const accessToken = TIKTOK.ACCESS_TOKEN;
 
-  async function getCompanyVideos(company: string, { since, until }: DateRange, count: number): Promise<any[]> {
+  async function getCompanyVideos(
+    company: string,
+    { since, until }: DateRange,
+    { accessToken, videos: count = 200 }: TiktokClientType,
+  ): Promise<any[]> {
     try {
       const { videos } = await Axios.get(`${baseUrl}/${apiVersion}/search/`, {
         params: {
@@ -28,8 +31,12 @@ export namespace TiktokClient {
     }
   }
 
-  export const getCaptions = async (company: string, timerange: DateRange, count: number): Promise<string[]> => {
-    const videos = await getCompanyVideos(company, timerange, count);
+  export const getCaptions = async (
+    company: string,
+    timerange: DateRange,
+    configuration: TiktokClientType,
+  ): Promise<string[]> => {
+    const videos = await getCompanyVideos(company, timerange, configuration);
     if (!videos) {
       return [];
     }

@@ -1,19 +1,19 @@
 import { google } from 'googleapis';
-import { YOUTUBE } from '../constants';
 import { DateRange } from '../types';
+import { YoutubeClientType } from './types';
 
 export namespace YoutubeClient {
   export const getSearchResult = async (
     client: ReturnType<typeof google.youtube>,
     company: string,
     { since, until }: DateRange,
-    videoCount: number,
-  ) => {
+    videos: number,
+  ): Promise<string | undefined> => {
     const searchResult = await client.search.list({
       part: ['id'],
       q: `${company} video`,
       type: ['video'],
-      maxResults: videoCount,
+      maxResults: videos,
       publishedAfter: since,
       publishedBefore: until,
     });
@@ -24,17 +24,16 @@ export namespace YoutubeClient {
   export const getComments = async (
     company: string,
     timerange: DateRange,
-    videoCount: number,
-    commentsCount: number,
+    { apiKey, videos = 100, comments = 100 }: YoutubeClientType,
   ): Promise<string[]> => {
     try {
       const client: ReturnType<typeof google.youtube> =
         google.youtube({
           version: 'v3',
-          auth: YOUTUBE.API_KEY,
+          auth: apiKey,
         });
 
-      const videoIds = await getSearchResult(client, company, timerange, videoCount);
+      const videoIds = await getSearchResult(client, company, timerange, videos);
       if (!videoIds) {
         return [];
       }
@@ -42,7 +41,7 @@ export namespace YoutubeClient {
       const commentResult = await client.commentThreads.list({
         part: ['snippet'],
         videoId: videoIds,
-        maxResults: commentsCount,
+        maxResults: comments,
       });
 
       return (commentResult.data.items || []).map((item: any) => item.snippet?.topLevelComment?.snippet?.textDisplay);

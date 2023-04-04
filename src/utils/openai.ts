@@ -1,16 +1,15 @@
 import { OpenAIApi, Configuration } from 'openai';
 import { MEDIA, MediaType } from '../types';
-import { OPENAI } from '../constants';
+import { OpenAiClientType } from '../clients/types';
 
 export namespace OpenAI {
   export const getSummary = async (
+    { apiKey }: OpenAiClientType,
     company: string,
     media: MediaType,
     elements: string[],
   ): Promise<string | undefined> => {
-    const configuration = new Configuration({
-      apiKey: OPENAI.API_KEY,
-    });
+    const configuration = new Configuration({ apiKey });
     const client = new OpenAIApi(configuration);
 
     if (!elements.length) {

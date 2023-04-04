@@ -1,4 +1,4 @@
-import { SentimentAnalysisResult } from '../types';
+import { SentimentAnalysisResult, SentimentConfigurationType } from '../types';
 import { getTimerange } from '../helpers/getTimerange';
 import { validator } from '../validators/sentiment';
 import { getCompanyMediaSentiment } from '../helpers/getCompanyMediaSentiment';
@@ -16,6 +16,7 @@ type SentimentConfig = {
 export const sentiment = async (
   company: string,
   media: string[],
+  configuration: SentimentConfigurationType,
   options?: SentimentConfig,
 ): Promise<SentimentResult> => {
   const validatedMedia = validator(media);
@@ -29,6 +30,7 @@ export const sentiment = async (
       company,
       medium,
       timerange,
+      configuration,
       strategy ?? 'afinn',
       scaledScoreThreshold,
       strategyOptions,

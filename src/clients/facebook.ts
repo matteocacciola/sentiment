@@ -1,12 +1,15 @@
-import { FACEBOOK } from '../constants';
 import { Axios } from '../utils/axios';
 import { DateRange } from '../types';
+import { FacebookClientType } from './types';
 
 export namespace FacebookClient {
   const baseUrl = 'https://graph.facebook.com/search';
-  const accessToken = FACEBOOK.ACCESS_TOKEN;
 
-  export const getPosts = async (company: string, { since, until }: DateRange): Promise<string[]> => {
+  export const getPosts = async (
+    company: string,
+    { since, until }: DateRange,
+    { accessToken }: FacebookClientType,
+  ): Promise<string[]> => {
     try {
       const data = await Axios.get(baseUrl, {
         q: company,

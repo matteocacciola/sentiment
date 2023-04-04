@@ -1,6 +1,6 @@
-import { NEWS } from '../constants';
 import { Axios } from '../utils/axios';
 import { DateRange } from '../types';
+import { NewsClientType } from './types';
 
 export namespace NewsClient {
   type NewsApiResponse = {
@@ -14,9 +14,12 @@ export namespace NewsClient {
   }
 
   const baseUrl = 'https://newsapi.org/v2/everything';
-  const apiKey = NEWS.API_KEY;
 
-  export const getNews = async (company: string, { since, until }: DateRange): Promise<string[]> => {
+  export const getNews = async (
+    company: string,
+    { since, until }: DateRange,
+    { apiKey }: NewsClientType,
+  ): Promise<string[]> => {
     try {
       const { articles } = await Axios.get<NewsApiResponse>(baseUrl, {
         q: company,

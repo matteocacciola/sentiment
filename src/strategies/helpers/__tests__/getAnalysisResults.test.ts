@@ -1,13 +1,11 @@
 import { expect, describe, it, vitest, beforeEach, SpyInstance } from 'vitest';
 import * as strategyProvider from '../../provider';
 import { getAnalysisResults } from '../getAnalysisResults';
-import { MediaType } from '../../../types';
 import { StrategyType } from '../../types';
 
 let mockedStrategyProvider: SpyInstance;
 
 const company = 'Test Company';
-const media: MediaType = 'twitter';
 const items = ['item 1', 'item 2', 'item 3'];
 const strategyType: StrategyType = 'afinn';
 const scoreThreshold = 0;
@@ -33,27 +31,27 @@ describe('getAnalysisResults', () => {
         { text: 'item 3', score: 0, category: 'neutral' },
       ],
     };
-    const result = await getAnalysisResults(company, media, items, strategyType, scoreThreshold);
+    const result = await getAnalysisResults(company, items, strategyType, scoreThreshold);
     expect(result).toEqual(expectedResult);
   });
 
   it('should call strategyProvider with the correct strategy type', async () => {
-    await getAnalysisResults(company, media, items, strategyType, scoreThreshold);
+    await getAnalysisResults(company, items, strategyType, scoreThreshold);
     expect(mockedStrategyProvider).toHaveBeenCalledWith(strategyType);
   });
 
   it('should call evaluateScores with the correct parameters', async () => {
-    await getAnalysisResults(company, media, items, strategyType, scoreThreshold);
+    await getAnalysisResults(company, items, strategyType, scoreThreshold);
     expect(evaluateScoresMock).toHaveBeenCalledWith(items, scoreThreshold, undefined);
   });
 
   it('should throw an error if company argument is missing', async () => {
-    await expect(getAnalysisResults(undefined as unknown as string, media, items, strategyType, scoreThreshold))
+    await expect(getAnalysisResults(undefined as unknown as string, items, strategyType, scoreThreshold))
       .rejects.toThrowError('Missing argument: company');
   });
 
   it.each([undefined, []])('should return null if items argument is missing or empty', async (item) => {
-    expect(await getAnalysisResults(company, media, item as unknown as string[], strategyType, scoreThreshold))
+    expect(await getAnalysisResults(company, item as unknown as string[], strategyType, scoreThreshold))
       .toBeNull();
   });
 });

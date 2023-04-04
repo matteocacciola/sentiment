@@ -8,6 +8,7 @@ import {
   mockedEmptySearchResult, mockedEmptyVideoCommentsTexts,
   mockedSearchResult, mockedVideoCommentsTexts,
 } from './mocks/youtube';
+import { omit } from 'lodash';
 
 vitest.mock('googleapis');
 
@@ -16,8 +17,11 @@ const timerange: DateRange = {
   since: '2022-01-01T00:00:00.000Z',
   until: '2022-01-02T00:00:00.000Z',
 };
-const videoCount = 10;
-const commentsCount = 20;
+const configuration = {
+  apiKey: 'aKey',
+  videos: 10,
+  comments: 20,
+};
 
 // eslint-disable-next-line max-lines-per-function
 describe('YoutubeClient', () => {
@@ -28,13 +32,14 @@ describe('YoutubeClient', () => {
   describe('getSearchResult', () => {
     it('should return a comma-separated string of video IDs', async () => {
       const client = { search: { list: vitest.fn().mockResolvedValue(mockedSearchResult) } };
-      const result = await YoutubeClient.getSearchResult(client as any, company, timerange, videoCount);
+      const videos = configuration.videos;
+      const result = await YoutubeClient.getSearchResult(client as any, company, timerange, videos);
 
       expect(client.search.list).toHaveBeenCalledWith({
         part: ['id'],
         q: `${company} video`,
         type: ['video'],
-        maxResults: videoCount,
+        maxResults: videos,
         publishedAfter: timerange.since,
         publishedBefore: timerange.until,
       });
@@ -43,13 +48,14 @@ describe('YoutubeClient', () => {
 
     it('should return an empty string if no video IDs are found', async () => {
       const client = { search: { list: vitest.fn().mockResolvedValue(mockedEmptySearchResult) } };
-      const result = await YoutubeClient.getSearchResult(client as any, company, timerange, videoCount);
+      const videos = configuration.videos;
+      const result = await YoutubeClient.getSearchResult(client as any, company, timerange, videos);
 
       expect(client.search.list).toHaveBeenCalledWith({
         part: ['id'],
         q: `${company} video`,
         type: ['video'],
-        maxResults: videoCount,
+        maxResults: videos,
         publishedAfter: timerange.since,
         publishedBefore: timerange.until,
       });
@@ -58,15 +64,15 @@ describe('YoutubeClient', () => {
 
     it('should catch errors and return an empty string', async () => {
       const client = { search: { list: vitest.fn().mockRejectedValue(new Error('API error')) } };
-
-      await expect(() => YoutubeClient.getSearchResult(client as any, company, timerange, videoCount))
+      const videos = configuration.videos;
+      await expect(() => YoutubeClient.getSearchResult(client as any, company, timerange, videos))
         .rejects.toThrowError('API error');
 
       expect(client.search.list).toHaveBeenCalledWith({
         part: ['id'],
         q: `${company} video`,
         type: ['video'],
-        maxResults: videoCount,
+        maxResults: videos,
         publishedAfter: timerange.since,
         publishedBefore: timerange.until,
       });
@@ -86,15 +92,16 @@ describe('YoutubeClient', () => {
           list: commentResultMock,
         },
       });
+      const  { videos, comments } = configuration;
 
-      const result = await YoutubeClient.getComments(company, timerange, videoCount, commentsCount);
+      const result = await YoutubeClient.getComments(company, timerange, configuration);
 
       expect(searchResultMock).toHaveBeenCalledTimes(1);
       expect(searchResultMock).toHaveBeenCalledWith({
         part: ['id'],
         q: `${company} video`,
         type: ['video'],
-        maxResults: videoCount,
+        maxResults: videos,
         publishedAfter: timerange.since,
         publishedBefore: timerange.until,
       });
@@ -103,7 +110,7 @@ describe('YoutubeClient', () => {
       expect(commentResultMock).toHaveBeenCalledWith({
         part: ['snippet'],
         videoId: 'abc123,def456',
-        maxResults: commentsCount,
+        maxResults: comments,
       });
 
       expect(result).toEqual(mockedVideoCommentsTexts);
@@ -122,14 +129,14 @@ describe('YoutubeClient', () => {
         },
       });
 
-      const result = await YoutubeClient.getComments(company, timerange, videoCount, commentsCount);
+      const result = await YoutubeClient.getComments(company, timerange, omit(configuration, ['videos', 'comments']));
 
       expect(searchResultMock).toHaveBeenCalledTimes(1);
       expect(searchResultMock).toHaveBeenCalledWith({
         part: ['id'],
         q: `${company} video`,
         type: ['video'],
-        maxResults: videoCount,
+        maxResults: 100,
         publishedAfter: timerange.since,
         publishedBefore: timerange.until,
       });
@@ -138,7 +145,7 @@ describe('YoutubeClient', () => {
       expect(commentResultMock).toHaveBeenCalledWith({
         part: ['snippet'],
         videoId: 'abc123,def456',
-        maxResults: commentsCount,
+        maxResults: 100,
       });
 
       expect(result).toEqual(mockedEmptyVideoCommentsTexts);
@@ -154,15 +161,16 @@ describe('YoutubeClient', () => {
           list: vitest.fn(),
         },
       });
+      const { videos } = configuration;
 
-      const result = await YoutubeClient.getComments(company, timerange, videoCount, commentsCount);
+      const result = await YoutubeClient.getComments(company, timerange, configuration);
 
       expect(searchResultMock).toHaveBeenCalledTimes(1);
       expect(searchResultMock).toHaveBeenCalledWith({
         part: ['id'],
         q: `${company} video`,
         type: ['video'],
-        maxResults: videoCount,
+        maxResults: videos,
         publishedAfter: timerange.since,
         publishedBefore: timerange.until,
       });
@@ -181,15 +189,16 @@ describe('YoutubeClient', () => {
           list: vitest.fn(),
         },
       });
+      const { videos } = configuration;
 
-      const result = await YoutubeClient.getComments(company, timerange, videoCount, commentsCount);
+      const result = await YoutubeClient.getComments(company, timerange, configuration);
 
       expect(searchResultMock).toHaveBeenCalledTimes(1);
       expect(searchResultMock).toHaveBeenCalledWith({
         part: ['id'],
         q: `${company} video`,
         type: ['video'],
-        maxResults: videoCount,
+        maxResults: videos,
         publishedAfter: timerange.since,
         publishedBefore: timerange.until,
       });

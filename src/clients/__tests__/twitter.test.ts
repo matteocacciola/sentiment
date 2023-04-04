@@ -3,6 +3,7 @@ import { TwitterApi } from 'twitter-api-v2';
 import { TwitterClient } from '../twitter';
 import { DateRange } from '../../types';
 import { mockedData, mockedDataTexts, mockedEmptyData } from './mocks/twitter';
+import { omit } from 'lodash';
 
 vitest.mock('twitter-api-v2');
 
@@ -11,7 +12,13 @@ const timerange: DateRange = {
   since: '2022-01-01T00:00:00.000Z',
   until: '2022-01-02T00:00:00.000Z',
 };
-const count = 100;
+const configuration = {
+  appKey: 'aKey',
+  appSecret: 'aSecret',
+  accessToken: 'aToken',
+  accessSecret: 'anotherSecret',
+  tweets: 1000,
+};
 
 describe('TwitterClient', () => {
   describe('getTweets', () => {
@@ -28,13 +35,13 @@ describe('TwitterClient', () => {
       };
       (TwitterApi as unknown as Mock).mockImplementation(() => client);
 
-      const result = await TwitterClient.getTweets(company, timerange, count);
+      const result = await TwitterClient.getTweets(company, timerange, configuration);
 
       expect(client.appLogin).toHaveBeenCalledTimes(1);
       expect(client.v2.get).toHaveBeenCalledTimes(1);
       expect(client.v2.get).toHaveBeenCalledWith('tweets/search/recent', {
         query: company,
-        max_results: count,
+        max_results: configuration.tweets,
         start_time: timerange.since,
         end_time: timerange.until,
         fields: 'text',
@@ -52,7 +59,7 @@ describe('TwitterClient', () => {
       };
       (TwitterApi as unknown as Mock).mockImplementation(() => client);
 
-      const result = await TwitterClient.getTweets(company, timerange, count);
+      const result = await TwitterClient.getTweets(company, timerange, omit(configuration, 'tweets'));
 
       expect(result).toEqual([]);
     });
@@ -67,7 +74,7 @@ describe('TwitterClient', () => {
       };
       (TwitterApi as unknown as Mock).mockImplementation(() => client);
 
-      const result = await TwitterClient.getTweets(company, timerange, count);
+      const result = await TwitterClient.getTweets(company, timerange, configuration);
 
       expect(result).toEqual([]);
     });

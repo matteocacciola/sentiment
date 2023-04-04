@@ -18,10 +18,10 @@ export const sentimentMediaFactory = (media: MediaType): ProviderFunctionType =>
   const provider = cond<MediaType, ProviderFunctionType>([
     [isFacebook, constant<ProviderFunctionType>(facebookAnalyze)],
     [isInstagram, constant<ProviderFunctionType>(instagramAnalyze)],
-    [isTwitter, constant<ProviderFunctionType>(twitterAnalyze)],
-    [isYoutube, constant<ProviderFunctionType>(youtubeAnalyze)],
     [isNews, constant<ProviderFunctionType>(newsAnalyze)],
     [isTiktok, constant<ProviderFunctionType>(tiktokAnalyze)],
+    [isTwitter, constant<ProviderFunctionType>(twitterAnalyze)],
+    [isYoutube, constant<ProviderFunctionType>(youtubeAnalyze)],
     [stubTrue, () => {
       throw new Error('Invalid media provider');
     }],

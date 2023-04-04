@@ -13,13 +13,75 @@ The usage is really simple
 ```typescript
 import { sentiment } from '@matteocacciola/sentiment'
 
-const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media);
-const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media, options);
+const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media, configuration);
+const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media, configuration, options);
 ```
+This method is fully configurable.
+
+### Media
 The `media` parameter is an array listing all the source media you wish to use for the evaluation of the
 Sentiment. As explained in the [Usage](#usage), you can list here one or more sources among `'facebook'`, `'instagram'`,
 `'news'`, `'tiktok'`, `'twitter'`, `'youtube'`.
 
+### Configuration
+The `configuration` parameter has some mandatory and some optional elements. Configuration for OpenAI API is mandatory.
+It is used to have a qualitative summary of the sentiments retrieved from the media information.
+```typescript
+configuration = { openai: { apiKey: 'theOpenAIApiKey' } };
+```
+Please, follow the instructions from the [official documentation](https://platform.openai.com/account/api-keys)
+in order to create an API key.
+In addition to the `openai` attribute and according to the `media` you want to use, you can set more elements in `configuration`:
+```typescript
+configuration = {
+  facebook: { accessToken: 'theFacebookAccessToken' },
+  instagram: { accessToken: 'theInstagramAccessToken' },
+  news: { apiKey: 'theNewsApiKey' },
+  tiktok: { accessToken: 'theTikTokAccessToken', videos: theNumberOfVideosToConsider ?? 200 },
+  twitter: {
+    appKey: 'theTwitterAppKey',
+    appSecret: 'theTwitterAppSecret',
+    accessToken: 'theTwitterAccessToken',
+    accessSecret: 'theTwitterAccessSecret',
+    tweets: theNumberOfTweetsToConsider ?? 100,
+  },
+  youtube: {
+    apiKey: 'theYouTubeAppKey',
+    videos: theNumberOfVideosToConsider ?? 100,
+    comments: theNumberOfCommentsPerVideoToConsider ?? 100;
+  },
+};
+```
+
+#### Facebook
+Please, consider this library uses the `/search` endpoint to retrieve posts. Therefore, you need an app tied to a
+Facebook's Workplace account. Please, consult the [official documentation](https://developers.facebook.com/docs/graph-api/)
+in order to obtain the proper access token for the `configuration`.
+
+#### Instagram
+Similarly to [Facebook](#facebook), you need to set an access token in `configuration`, if you want to use this media as
+source of your sentiment analysis. In this case, the `/media` endpoint is used. Please, refer to
+[official documentation](https://developers.facebook.com/docs/instagram) for more information.
+
+#### News API
+[News API](https://newsapi.org/) is an innovative service used to retrieve the information about the Sentiment from the
+Web pages. Please, use the link above in order to obtain an API key to set into the `configuration` parameter.
+
+#### TikTok
+Even TikTok can be used to retrieve information about the sentiment. This library uses the `v1` API, specifically the
+`/search` endpoint, to retrieve suitable data. Please, paste your access token within the `configuration` parameter.
+Official documentation available [here](https://developers.tiktok.com/doc/overview/).
+
+#### Twitter
+If you want to use Twitter as media, `config` parameter requires some settings to be used, representing the app key,
+app secret, access token and access token secret, respectively. You can consult the
+[official documentation](https://developer.twitter.com/en/docs/twitter-api) for more details.
+
+#### YouTube
+In order to use YouTube as well, you need to set your API key to the `configuration` parameter.
+Please, login to the [Google Developers Console](https://console.cloud.google.com/apis/dashboard) for more details.
+
+### Options
 The `options` has the format `{ strategy: StrategyType, scanPeriodDays: number; scoreThreshold: number; strategyOptions: ScoreStrategyOptions }`,
 where:
 
@@ -63,85 +125,3 @@ type Score = {
 
 type SentimentsType = 'positive' | 'negative' | 'neutral' | 'undefined';
 ```
-The method is fully configurable.
-
-## Configuration
-You can use environment variables to configure the library.
-
-### Package configuration
-
-#### SENTIMENT_TWITTER_TWEET_COUNT
-In case you want to use Twitter as one of your media to collect information about the Sentiment, this key can be used
-to set the number of tweets to retrieve in the spanned time range. The tweets are ordered by the descending number of
-interactions.
-
-**Default is 100**. Example:
-```dotenv
-SENTIMENT_TWITTER_TWEET_COUNT=100
-```
-
-#### SENTIMENT_YOUTUBE_VIDEO_COUNT
-In case you want to use YouTube as one of your media to collect information about the Sentiment, this key can be used
-to set the number of videos to retrieve in the spanned time range. The videos are ordered by the descending number of
-interactions.
-
-**Default is 100**. Example:
-```dotenv
-SENTIMENT_YOUTUBE_VIDEO_COUNT=100
-```
-
-#### SENTIMENT_YOUTUBE_COMMENTS_PER_VIDEO_COUNT
-Together with [SENTIMENT_YOUTUBE_VIDEO_COUNT](#sentimentyoutubevideocount), you can use this key to establish the
-number of comments per video to retrieve. The comments are ordered by the descending number of interactions.
-
-**Default is 100**. Example:
-```dotenv
-SENTIMENT_YOUTUBE_COMMENTS_PER_VIDEO_COUNT=100
-```
-
-#### SENTIMENT_TIKTOK_VIDEO_COUNT
-Similarly to [YouTube](#sentimentyoutubevideocount), this key can be used with TikTok in order to set the number of videos
-used to retrieve the available information (i.e., captions) to evaluate the Sentiment. The videos are ordered by the
-descending number of interactions.
-
-**Default is 200**. Example:
-```dotenv
-SENTIMENT_TIKTOK_VIDEO_COUNT=200
-```
-
-### OpenAI Configuration
-OpenAI API key is used to have a qualitative summary of the sentiments retrieved from the media information. Please,
-follow the instructions from the [official documentation](https://platform.openai.com/account/api-keys) in order to
-create an API key, and store it within the environment variable named `OPENAI_API_KEY`.
-
-### Media source configuration
-The different media sources you want to use should be properly configured. Please, follow the instructions below.
-
-#### Facebook
-You have to set a proper `FACEBOOK_ACCESS_TOKEN` able to host the access token for the GraphQL queries. Please, consider
-this library uses the `/search` endpoint to retrieve posts. Therefore, you need an app tied to a Facebook's Workplace
-account. Please, consult the [official documentation](https://developers.facebook.com/docs/graph-api/).
-
-#### Instagram
-Similarly to [Facebook](#facebook), you need to set an access token to the environment variable `INSTAGRAM_ACCESS_TOKEN`.
-In this case, the `/media` endpoint is used. Please, refer to [official documentation](https://developers.facebook.com/docs/instagram)
-for more information.
-
-#### News API
-[News API](https://newsapi.org/) is an innovative service used to retrieve the information about the Sentiment from the
-Web pages. Please, use the link above in order to otain an API key, which you will then copy and paste to `NEWS_API_KEY`.
-
-#### TikTok
-Even TikTok can be used to retrieve information about the sentiment. This library uses the `v1` API, specifically the
-`/search` endpoint, to retrieve suitable data. Please, paste your access token to the `TIKTOK_ACCESS_TOKEN` environment
-variable. Official documentation available [here](https://developers.tiktok.com/doc/overview/).
-
-#### Twitter
-Twitter requires some settings to be used. Specifically: `TWITTER_APP_KEY`, `TWITTER_APP_SECRET`, `TWITTER_ACCESS_TOKEN`,
-`TWITTER_ACCESS_TOKEN_SECRET`, representing the app key, app secret, access token and access token secret, respectively.
-
-You can consult the [official documentation](https://developer.twitter.com/en/docs/twitter-api) for more details.
-
-#### YouTube
-In order to use YouTube as well, you need to set your API key to the `YOUTUBE_API_KEY` environment variables.
-Please, login to the [Google Developers Console](https://console.cloud.google.com/apis/dashboard) for more details.

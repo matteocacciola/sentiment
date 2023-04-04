@@ -1,10 +1,9 @@
-import { AnalysisResultType, MediaType } from '../../types';
+import { AnalysisResultType } from '../../types';
 import { strategyProvider } from '../provider';
 import { SentimentValues, StrategyType, Score, ScoreStrategyOptions } from '../types';
 
 export const getAnalysisResults = async (
   company: string,
-  media: MediaType,
   items: string[],
   strategyType: StrategyType,
   scoreThreshold: number,

@@ -8,6 +8,7 @@ vitest.mock('../../utils/axios');
 
 const company = 'company';
 const timerange: DateRange = { since: '2022-01-01', until: '2022-01-31' };
+const configuration = { accessToken: 'aToken' };
 
 describe('InstagramClient.getInsta', () => {
   beforeEach(() => {
@@ -17,7 +18,7 @@ describe('InstagramClient.getInsta', () => {
   it('should return an array of posts', async () => {
     const mockedAxiosGet = vitest.spyOn(Axios, 'get').mockResolvedValueOnce(mockedSearchInsta);
 
-    const actualPosts = await InstagramClient.getInsta(company, timerange);
+    const actualPosts = await InstagramClient.getInsta(company, timerange, configuration);
 
     expect(mockedAxiosGet).toHaveBeenCalledTimes(1);
     expect(actualPosts).toEqual(mockedInstaTexts);
@@ -26,7 +27,7 @@ describe('InstagramClient.getInsta', () => {
   it('should return an empty array if no post is found', async () => {
     const mockedAxiosGet = vitest.spyOn(Axios, 'get').mockResolvedValueOnce(mockedEmptyInstaTexts);
 
-    const actualPosts = await InstagramClient.getInsta(company, timerange);
+    const actualPosts = await InstagramClient.getInsta(company, timerange, configuration);
 
     expect(mockedAxiosGet).toHaveBeenCalledTimes(1);
     expect(actualPosts).toEqual(mockedEmptyInstaTexts);
@@ -35,7 +36,7 @@ describe('InstagramClient.getInsta', () => {
   it('should throw an error if the Instagram API returns an error', async () => {
     const mockedAxiosGet = vitest.spyOn(Axios, 'get').mockRejectedValueOnce(new Error('API error'));
 
-    const actualPosts = await InstagramClient.getInsta(company, timerange);
+    const actualPosts = await InstagramClient.getInsta(company, timerange, configuration);
 
     expect(mockedAxiosGet).toHaveBeenCalledTimes(1);
     expect(actualPosts).toEqual(mockedEmptyInstaTexts);
