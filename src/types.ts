@@ -56,6 +56,7 @@ export type AnalysisResultType = {
   sentimentStats: SentimentValues;
   scores: Score[];
 } | null;
+export type StatsResultType = AnalysisResultType;
 
 export type ProviderFunctionType = (
   company: string,

@@ -1,4 +1,4 @@
-# Sentiment Analysis
+# Media Sentiment Analysis
 
 This method aims to provide a support for the analysis of the Sentiment of a Company, Institution, Public Entity
 or similar. This method analyses the most famous Social Media as well as source on Web in order to provide suitable information
@@ -13,8 +13,8 @@ The usage is really simple
 ```typescript
 import { sentiment } from '@matteocacciola/sentiment'
 
-const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media, configuration);
-const results: Record<string, SentimentAnalysisResult | null>[] = sentiment('yourCompany', media, configuration, options);
+const results: Record<string, SentimentAnalysisResult | null>[] = mediaSentiment('yourCompany', media, configuration);
+const results: Record<string, SentimentAnalysisResult | null>[] = mediaSentiment('yourCompany', media, configuration, options);
 ```
 This method is fully configurable.
 
@@ -107,6 +107,7 @@ type SentimentAnalysisResult = {
   positive: number;
   negative: number;
   neutral: number;
+  undefined: number;
   analyzedElements: Score[];
   summary?: string | null;
   timeRange: {

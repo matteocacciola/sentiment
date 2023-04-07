@@ -13,7 +13,7 @@ type SentimentConfig = {
   strategyOptions: ScoreStrategyOptions;
 }
 
-export const sentiment = async (
+export const mediaSentiment = async (
   company: string,
   media: string[],
   configuration: SentimentConfigurationType,

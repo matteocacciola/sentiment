@@ -1,10 +1,12 @@
-import { expect, describe, it, vitest, beforeEach } from 'vitest';
+import { expect, describe, it, vitest, beforeEach, SpyInstance } from 'vitest';
 import { Axios } from '../../utils/axios';
 import { FacebookClient } from '../facebook';
 import { mockedEmptyPostTexts, mockedPostTexts, mockedSearchPosts } from './mocks/facebook';
 import { DateRange } from '../../types';
 
 vitest.mock('../../utils/axios');
+
+const mockedAxiosGet: SpyInstance = vitest.spyOn(Axios, 'get');
 
 const company = 'company';
 const timerange: DateRange = { since: '2022-01-01', until: '2022-01-31' };
@@ -16,7 +18,7 @@ describe('FacebookClient.getPosts', () => {
   });
 
   it('should return an array of posts', async () => {
-    const mockedAxiosGet = vitest.spyOn(Axios, 'get').mockResolvedValueOnce(mockedSearchPosts);
+    mockedAxiosGet.mockResolvedValueOnce(mockedSearchPosts);
 
     const actualPosts = await FacebookClient.getPosts(company, timerange, configuration);
 
@@ -25,7 +27,7 @@ describe('FacebookClient.getPosts', () => {
   });
 
   it('should return an empty array if no post is found', async () => {
-    const mockedAxiosGet = vitest.spyOn(Axios, 'get').mockResolvedValueOnce(mockedEmptyPostTexts);
+    mockedAxiosGet.mockResolvedValueOnce(mockedEmptyPostTexts);
 
     const actualPosts = await FacebookClient.getPosts(company, timerange, configuration);
 
@@ -34,7 +36,7 @@ describe('FacebookClient.getPosts', () => {
   });
 
   it('should throw an error if the Facebook API returns an error', async () => {
-    const mockedAxiosGet = vitest.spyOn(Axios, 'get').mockRejectedValueOnce(new Error('API error'));
+    mockedAxiosGet.mockRejectedValueOnce(new Error('API error'));
 
     const actualPosts = await FacebookClient.getPosts(company, timerange, configuration);
 
