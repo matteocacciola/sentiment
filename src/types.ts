@@ -1,10 +1,12 @@
-import { Score, ScoreStrategyOptions, SentimentValues, StrategyType } from './strategies/types';
+import { Score, ScoresEvaluatorOptions, SentimentValues, ScoresEvaluator } from './strategies/types';
 import {
-  FacebookClientType,
-  InstagramClientType,
-  NewsClientType, OpenAiClientType,
-  TiktokClientType,
-  TwitterClientType, YoutubeClientType,
+  FacebookClientConfiguration,
+  InstagramClientConfiguration,
+  NewsClientConfiguration,
+  OpenAIClientConfiguration,
+  TiktokClientConfiguration,
+  TwitterClientConfiguration,
+  YoutubeClientConfiguration,
 } from './clients/types';
 
 export type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
@@ -52,38 +54,32 @@ export enum MEDIA {
 
 export type MediaType = keyof typeof MEDIA;
 
-export type AnalysisResultType = {
+export type AnalysisResults = {
   sentimentStats: SentimentValues;
   scores: Score[];
 } | null;
-export type StatsResultType = AnalysisResultType;
+export type StatsResults = AnalysisResults;
 
-export type ProviderFunctionType = (
+export type ProviderFunction = (
   company: string,
   timerange: DateRange,
-  strategyType: StrategyType,
+  strategy: ScoresEvaluator,
   scoreThreshold: number,
-  configuration: SentimentConfigurationType,
-  strategyOptions?: ScoreStrategyOptions,
-) => Promise<AnalysisResultType>;
+  configuration: SentimentConfiguration,
+  scoresEvaluatorOptions?: ScoresEvaluatorOptions,
+) => Promise<AnalysisResults>;
 
 export type DescriptiveSource = {
   text: string;
   rating: number;
 };
 
-export type MatchedAttributes = {
-  overallMatch: number;
-  positiveMatch: number;
-  negativeMatch: number;
-};
-
-export type SentimentConfigurationType = {
-  facebook?: FacebookClientType;
-  instagram?: InstagramClientType;
-  news?: NewsClientType;
-  tiktok?: TiktokClientType;
-  twitter?: TwitterClientType;
-  youtube?: YoutubeClientType;
-  openai: OpenAiClientType;
+export type SentimentConfiguration = {
+  facebook?: FacebookClientConfiguration;
+  instagram?: InstagramClientConfiguration;
+  news?: NewsClientConfiguration;
+  tiktok?: TiktokClientConfiguration;
+  twitter?: TwitterClientConfiguration;
+  youtube?: YoutubeClientConfiguration;
+  openai: OpenAIClientConfiguration;
 };

@@ -1,20 +1,20 @@
-import { AnalysisResultType, DateRange, ProviderFunctionType, SentimentConfigurationType } from '../types';
+import { AnalysisResults, DateRange, ProviderFunction, SentimentConfiguration } from '../types';
 import { TwitterClient } from '../clients/twitter';
 import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
-import { ScoreStrategyOptions, StrategyType } from '../strategies/types';
+import { ScoresEvaluatorOptions, ScoresEvaluator } from '../strategies/types';
 
-export const analyze: ProviderFunctionType = async (
+export const analyze: ProviderFunction = async (
   company: string,
   timerange: DateRange,
-  strategyType: StrategyType,
+  scoresEvaluator: ScoresEvaluator,
   scoreThreshold: number,
-  configuration: SentimentConfigurationType,
-  strategyOptions?: ScoreStrategyOptions,
-): Promise<AnalysisResultType> => {
+  configuration: SentimentConfiguration,
+  scoresEvaluatorOptions?: ScoresEvaluatorOptions,
+): Promise<AnalysisResults> => {
   if (!configuration.twitter) {
     throw new Error('Invalid Twitter configuration');
   }
   const tweets = await TwitterClient.getTweets(company, timerange, configuration.twitter);
 
-  return getAnalysisResults(company, tweets, strategyType, scoreThreshold, strategyOptions);
+  return getAnalysisResults(company, tweets, scoresEvaluator, scoreThreshold, scoresEvaluatorOptions);
 };

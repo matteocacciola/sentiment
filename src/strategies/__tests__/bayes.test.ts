@@ -1,5 +1,5 @@
 import { expect, describe, it, vitest, afterAll, afterEach } from 'vitest';
-import strategy from '../bayes';
+import { evaluateScores } from '../bayes';
 import { SENTIMENTS } from '../types';
 
 afterAll(() => {
@@ -11,9 +11,11 @@ describe('Naive Bayes evaluateScores', () => {
     vitest.clearAllMocks();
   });
 
+  const threshold = 1;
+
   it('should return an array of probability objects', async () => {
     const items = ['This is a positive sentence', 'This is a negative sentence'];
-    const result = await strategy.evaluateScores(items);
+    const result = await evaluateScores(items, threshold);
 
     expect(result).toHaveLength(items.length);
     result.forEach(({ score, category, probability }) => {
@@ -25,7 +27,7 @@ describe('Naive Bayes evaluateScores', () => {
 
   it('should return an undefined category if an item with empty strings is passed', async () => {
     const items = [''];
-    const result = await strategy.evaluateScores(items);
+    const result = await evaluateScores(items, threshold);
 
     expect(result).toHaveLength(items.length);
     expect(result).toHaveLength(1);
@@ -36,17 +38,16 @@ describe('Naive Bayes evaluateScores', () => {
 
   it('should return an empty array when items array is empty', async () => {
     const items: string[] = [];
-    const result = await strategy.evaluateScores(items);
+    const result = await evaluateScores(items, threshold);
 
     expect(result).toEqual([]);
   });
 
   it('should throw an error when items array contains non-string elements', async () => {
     const items = ['This is a positive sentence', 123, { object: 'invalid' }, null];
-    const scoreThreshold = 1;
     try {
       // @ts-ignore
-      await evaluateScores(company, items, scoreThreshold);
+      await evaluateScores(items, threshold);
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
     }

@@ -1,6 +1,6 @@
 import { expect, describe, it, vitest, beforeEach } from 'vitest';
 import { DateRange, MediaType } from '../../types';
-import { StrategyType } from '../../strategies/types';
+import { ScoresEvaluatorStrategy } from '../../strategies/types';
 import { FacebookClient } from '../../clients/facebook';
 import { InstagramClient } from '../../clients/instagram';
 import { NewsClient } from '../../clients/news';
@@ -16,13 +16,13 @@ import { mockedVideosCaptions } from '../../clients/__tests__/mocks/tiktok';
 import { mockedDataTexts } from '../../clients/__tests__/mocks/twitter';
 import { mockedVideoCommentsTexts } from '../../clients/__tests__/mocks/youtube';
 
-const company = 'company';
+const company: string = 'company';
 const timerange: DateRange = { since: '2022-01-01', until: '2022-01-31' };
-const strategyType: StrategyType = 'afinn';
+const strategyType: ScoresEvaluatorStrategy = 'afinn';
 const scoreThreshold = 0.3;
 
-const mockedOpenAISummary = 'This is a summary from ChatGPT';
-const now = '2023-01-01T00:00:00.000Z';
+const mockedOpenAISummary: string = 'This is a summary from ChatGPT';
+const now: string = '2023-01-01T00:00:00.000Z';
 const errorConfiguration = { openai: { apiKey: 'aToken' } };
 const successConfiguration = {
   ...errorConfiguration,
@@ -56,7 +56,8 @@ const getResults = async (
 ) => {
   vitest.spyOn(module, methodName).mockResolvedValue(mockedElements);
 
-  const result = await getCompanyMediaSentiment(company,
+  const result = await getCompanyMediaSentiment(
+    company,
     media,
     timerange,
     configuration,

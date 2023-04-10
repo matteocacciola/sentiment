@@ -1,23 +1,23 @@
 import { WithRequiredAndNotNullProperty } from '../types';
 
-type AccessTokenConfigurationType = {
+type AccessTokenConfiguration = {
   accessToken: string;
   accessSecret?: string;
 };
-type ApiKeyConfigurationType = {
+type ApiKeyConfiguration = {
   apiKey: string;
 };
-type AppKeyConfigurationType = {
+type AppKeyConfiguration = {
   appKey: string;
   appSecret: string;
 };
 
-export type FacebookClientType = AccessTokenConfigurationType;
-export type InstagramClientType = AccessTokenConfigurationType;
-export type NewsClientType = ApiKeyConfigurationType;
-export type TiktokClientType = AccessTokenConfigurationType & { videos?: number; };
-export type TwitterClientType = AppKeyConfigurationType &
-  WithRequiredAndNotNullProperty<AccessTokenConfigurationType, 'accessSecret'> &
+export type FacebookClientConfiguration = AccessTokenConfiguration;
+export type InstagramClientConfiguration = AccessTokenConfiguration;
+export type NewsClientConfiguration = ApiKeyConfiguration;
+export type TiktokClientConfiguration = AccessTokenConfiguration & { videos?: number; };
+export type TwitterClientConfiguration = AppKeyConfiguration &
+  WithRequiredAndNotNullProperty<AccessTokenConfiguration, 'accessSecret'> &
   { tweets?: number };
-export type YoutubeClientType = ApiKeyConfigurationType & { videos?: number; comments?: number; };
-export type OpenAiClientType = ApiKeyConfigurationType;
+export type YoutubeClientConfiguration = ApiKeyConfiguration & { videos?: number; comments?: number; };
+export type OpenAIClientConfiguration = ApiKeyConfiguration;

@@ -1,10 +1,10 @@
 import { OpenAIApi, Configuration } from 'openai';
 import { MEDIA, MediaType } from '../types';
-import { OpenAiClientType } from '../clients/types';
+import { OpenAIClientConfiguration } from '../clients/types';
 
 export namespace OpenAI {
   export const getSummary = async (
-    { apiKey }: OpenAiClientType,
+    { apiKey }: OpenAIClientConfiguration,
     company: string,
     media: MediaType,
     elements: string[],

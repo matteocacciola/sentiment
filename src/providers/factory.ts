@@ -1,4 +1,4 @@
-import { ProviderFunctionType, MediaType } from '../types';
+import { ProviderFunction, MediaType } from '../types';
 import { cond, constant, stubTrue } from 'lodash';
 import { analyze as facebookAnalyze } from './facebook';
 import { analyze as instagramAnalyze } from './instagram';
@@ -14,14 +14,14 @@ const isTwitter = (media: MediaType): boolean => media === 'twitter';
 const isYoutube = (media: MediaType): boolean => media === 'youtube';
 const isTiktok = (media: MediaType): boolean => media === 'tiktok';
 
-export const sentimentMediaFactory = (media: MediaType): ProviderFunctionType => {
-  const provider = cond<MediaType, ProviderFunctionType>([
-    [isFacebook, constant<ProviderFunctionType>(facebookAnalyze)],
-    [isInstagram, constant<ProviderFunctionType>(instagramAnalyze)],
-    [isNews, constant<ProviderFunctionType>(newsAnalyze)],
-    [isTiktok, constant<ProviderFunctionType>(tiktokAnalyze)],
-    [isTwitter, constant<ProviderFunctionType>(twitterAnalyze)],
-    [isYoutube, constant<ProviderFunctionType>(youtubeAnalyze)],
+export const sentimentMediaFactory = (media: MediaType): ProviderFunction => {
+  const provider = cond<MediaType, ProviderFunction>([
+    [isFacebook, constant<ProviderFunction>(facebookAnalyze)],
+    [isInstagram, constant<ProviderFunction>(instagramAnalyze)],
+    [isNews, constant<ProviderFunction>(newsAnalyze)],
+    [isTiktok, constant<ProviderFunction>(tiktokAnalyze)],
+    [isTwitter, constant<ProviderFunction>(twitterAnalyze)],
+    [isYoutube, constant<ProviderFunction>(youtubeAnalyze)],
     [stubTrue, () => {
       throw new Error('Invalid media provider');
     }],

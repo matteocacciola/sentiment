@@ -1,6 +1,6 @@
 import { Axios } from '../utils/axios';
 import { DateRange } from '../types';
-import { NewsClientType } from './types';
+import { NewsClientConfiguration } from './types';
 
 export namespace NewsClient {
   type NewsApiResponse = {
@@ -18,7 +18,7 @@ export namespace NewsClient {
   export const getNews = async (
     company: string,
     { since, until }: DateRange,
-    { apiKey }: NewsClientType,
+    { apiKey }: NewsClientConfiguration,
   ): Promise<string[]> => {
     try {
       const { articles } = await Axios.get<NewsApiResponse>(baseUrl, {

@@ -1,6 +1,6 @@
 import { Axios } from '../utils/axios';
 import { DateRange } from '../types';
-import { TiktokClientType } from './types';
+import { TiktokClientConfiguration } from './types';
 
 export namespace TiktokClient {
   const baseUrl = 'https://api.tiktok.com';
@@ -9,7 +9,7 @@ export namespace TiktokClient {
   async function getCompanyVideos(
     company: string,
     { since, until }: DateRange,
-    { accessToken, videos: count = 200 }: TiktokClientType,
+    { accessToken, videos: count = 200 }: TiktokClientConfiguration,
   ): Promise<any[]> {
     try {
       const { videos } = await Axios.get(`${baseUrl}/${apiVersion}/search/`, {
@@ -34,7 +34,7 @@ export namespace TiktokClient {
   export const getCaptions = async (
     company: string,
     timerange: DateRange,
-    configuration: TiktokClientType,
+    configuration: TiktokClientConfiguration,
   ): Promise<string[]> => {
     const videos = await getCompanyVideos(company, timerange, configuration);
     if (!videos) {

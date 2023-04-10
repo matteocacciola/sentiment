@@ -1,27 +1,27 @@
-import { SentimentAnalysisResult, SentimentConfigurationType } from '../types';
+import { SentimentAnalysisResult, SentimentConfiguration } from '../types';
 import { getTimerange } from '../helpers/getTimerange';
 import { validator } from '../validators/sentiment';
 import { getCompanyMediaSentiment } from '../helpers/getCompanyMediaSentiment';
-import { ScoreStrategyOptions, StrategyType } from '../strategies/types';
+import { ScoresEvaluatorOptions, ScoresEvaluator } from '../strategies/types';
 
 type SentimentResult = Record<string, SentimentAnalysisResult>[];
 
 type SentimentConfig = {
-  strategy: StrategyType;
+  scoresEvaluator: ScoresEvaluator;
   scanPeriodDays: number;
   scoreThreshold: number;
-  strategyOptions: ScoreStrategyOptions;
+  scoresEvaluatorOptions: ScoresEvaluatorOptions;
 }
 
 export const mediaSentiment = async (
   company: string,
   media: string[],
-  configuration: SentimentConfigurationType,
+  configuration: SentimentConfiguration,
   options?: SentimentConfig,
 ): Promise<SentimentResult> => {
   const validatedMedia = validator(media);
 
-  const { strategy, scanPeriodDays, scoreThreshold, strategyOptions } = options ?? {};
+  const { scoresEvaluator, scanPeriodDays, scoreThreshold, scoresEvaluatorOptions } = options ?? {};
   const scaledScoreThreshold = Math.min(Math.abs(scoreThreshold ?? 0.3), 1);
   const timerange = getTimerange(scanPeriodDays ?? 7);
 
@@ -31,9 +31,9 @@ export const mediaSentiment = async (
       medium,
       timerange,
       configuration,
-      strategy ?? 'afinn',
+      scoresEvaluator ?? 'afinn',
       scaledScoreThreshold,
-      strategyOptions,
+      scoresEvaluatorOptions,
     ) };
   }));
 };

@@ -1,20 +1,20 @@
 import { YoutubeClient } from '../clients/youtube';
-import { AnalysisResultType, DateRange, ProviderFunctionType, SentimentConfigurationType } from '../types';
+import { AnalysisResults, DateRange, ProviderFunction, SentimentConfiguration } from '../types';
 import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
-import { ScoreStrategyOptions, StrategyType } from '../strategies/types';
+import { ScoresEvaluatorOptions, ScoresEvaluator } from '../strategies/types';
 
-export const analyze: ProviderFunctionType = async (
+export const analyze: ProviderFunction = async (
   company: string,
   timerange: DateRange,
-  strategyType: StrategyType,
+  scoresEvaluator: ScoresEvaluator,
   scoreThreshold: number,
-  configuration: SentimentConfigurationType,
-  strategyOptions?: ScoreStrategyOptions,
-): Promise<AnalysisResultType> => {
+  configuration: SentimentConfiguration,
+  scoresEvaluatorOptions?: ScoresEvaluatorOptions,
+): Promise<AnalysisResults> => {
   if (!configuration.youtube) {
     throw new Error('Invalid YouTube configuration');
   }
   const comments = await YoutubeClient.getComments(company, timerange, configuration.youtube);
 
-  return getAnalysisResults(company, comments, strategyType, scoreThreshold, strategyOptions);
+  return getAnalysisResults(company, comments, scoresEvaluator, scoreThreshold, scoresEvaluatorOptions);
 };

@@ -5,16 +5,16 @@ or similar. This method analyses the most famous Social Media as well as source 
 about the Sentiment.
 
 OpenAI ChatGPT is used to build a short qualitative summary from the obtained information. Quantitative information
-related to the Sentiment are evaluated according to specific sources of truth (i.e., one among Google Natural Language,
-VADER, AFINN-based or Naive Bayes algorithms), which can be configured to your liking.
+related to the Sentiment are evaluated according to specific sources of truth (i.e., Google Natural Language,
+VADER, AFINN-based, Naive Bayes algorithms, or alternatively a custom one), which can be configured to your liking.
 
 ## Usage
 The usage is really simple
 ```typescript
-import { sentiment } from '@matteocacciola/sentiment'
+import { mediaSentiment } from '@matteocacciola/sentiment'
 
-const results: Record<string, SentimentAnalysisResult | null>[] = mediaSentiment('yourCompany', media, configuration);
-const results: Record<string, SentimentAnalysisResult | null>[] = mediaSentiment('yourCompany', media, configuration, options);
+const results: Record<string, SentimentAnalysisResult | null>[] = await mediaSentiment('yourCompany', media, configuration);
+const results: Record<string, SentimentAnalysisResult | null>[] = await mediaSentiment('yourCompany', media, configuration, options);
 ```
 This method is fully configurable.
 
@@ -48,7 +48,7 @@ configuration = {
   youtube: {
     apiKey: 'theYouTubeAppKey',
     videos: theNumberOfVideosToConsider ?? 100,
-    comments: theNumberOfCommentsPerVideoToConsider ?? 100;
+    comments: theNumberOfCommentsPerVideoToConsider ?? 100,
   },
 };
 ```
@@ -82,12 +82,18 @@ In order to use YouTube as well, you need to set your API key to the `configurat
 Please, login to the [Google Developers Console](https://console.cloud.google.com/apis/dashboard) for more details.
 
 ### Options
-The `options` has the format `{ strategy: StrategyType, scanPeriodDays: number; scoreThreshold: number; strategyOptions: ScoreStrategyOptions }`,
+The `options` has the format `{ scoresEvaluator: ScoresEvaluator, scanPeriodDays: number; scoreThreshold: number; scoresEvaluatorOptions: ScoresEvaluatorOptions }`,
 where:
-
-- `strategy`(default `'afinn'`) identifies the strategy to use for the evaluation of the scores and sentiments of the
-  various collected data with `type StrategyType = 'afinn' | 'google' | 'vader' | 'bayes'`: AFINN; Google Natural
-  Language; VADER; Naive Bayes (default `'afinn'`).
+- `scoresEvaluator` (default `'afinn'`) identifies the strategy to use for the evaluation of the scores and sentiments of the
+  various collected data with `type ScoresEvaluatorStrategy = 'afinn' | 'google' | 'vader' | 'bayes'` (AFINN; Google Natural
+  Language; VADER; Naive Bayes - default `'afinn'`). You can also pass a custom evaluator implementing the following type:
+  ```typescript
+  type EvaluateScoresFunction = (
+    items: string[],
+    scoreThreshold: number,
+    scoresEvaluatorOptions?: ScoreStrategyOptions
+  ) => Promise<ScoresEvaluatorResult[]>;
+  ```
 - `scanPeriodDays` represents the number of days to use to collect Sentiment evaluation data (default 7)
 - `scoreThreshold` (default 0.3) identifies the "sentiment category" of a specific text. A number greater than 1 is
   automatically scaled to one. Loosely speaking, each "sentiment score" can range within the interval [-1, 1]:
@@ -95,9 +101,9 @@ where:
   - when the score is within `]-scoreThreshold, scoreThreshold[`, it is labelled `neutral`
   - when the score is within `[scoreThreshold, 1]`, it is `positive`
   - finally, when no score can be retrieved, then the assigned category is `undefined`
-- `strategyOptions`: if `strategy` is `'google'`, you can set some options according to the [Google Cloud Natural Language
-  API](https://cloud.google.com/natural-language/docs/reference/rest); if `strategy` is `'bayes'`, you can set some preferences
-  according to the [documentation of the Naive Bayes library](./libraries/naive-bayes.md#data).
+- `scoresEvaluatorOptions`: if `scoresEvaluator` is `'google'`, you can set some options according to the [Google Cloud
+  Natural Language API](https://cloud.google.com/natural-language/docs/reference/rest); if `scoresEvaluator` is `'bayes'`,
+  you can set some preferences according to the [documentation of the Naive Bayes library](./libraries/naive-bayes.md#data).
 
 ### Result
 Keys of `results` can be one of `'facebook'`, `'instagram'`, `'news'`, `'tiktok'`, `'twitter'`, `'youtube'`, whereas
@@ -121,8 +127,16 @@ type SentimentAnalysisResult = {
 type Score = {
   text: string;
   score?: number;
-  category?: SentimentsType;
+  category?: SentimentType;
 };
 
-type SentimentsType = 'positive' | 'negative' | 'neutral' | 'undefined';
+type SentimentType = 'positive' | 'negative' | 'neutral' | 'undefined';
 ```
+
+## Notes
+The available `scoresEvaluator` allows to use evaluations of Sentiment and scores by means of predefined strategies, already
+implemented within this package, or by using a custom and self-implemented Sentiment classifier, e.g. obtained by
+training suitable Machine Learning structures.
+If you want to consult possible algorithms you can train, please feel free to be inspired by my
+[Machine Learning codes](https://github.com/matteocacciola/challenges/tree/master/machine-learning/src) like Support
+Vector Machines, Convolutional Neural Network, Multilayer Perceptron Artificial Neural Network, Fuzzy C-means and so forth.

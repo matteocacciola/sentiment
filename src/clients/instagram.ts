@@ -1,6 +1,6 @@
 import { Axios } from '../utils/axios';
 import { DateRange } from '../types';
-import { InstagramClientType } from './types';
+import { InstagramClientConfiguration } from './types';
 
 export namespace InstagramClient {
   const baseUrl = 'https://graph.instagram.com/media';
@@ -8,7 +8,7 @@ export namespace InstagramClient {
   export const getInsta = async (
     company: string,
     { since, until }: DateRange,
-    { accessToken }: InstagramClientType,
+    { accessToken }: InstagramClientConfiguration,
   ): Promise<string[]> => {
     try {
       const data = await Axios.get(baseUrl, {

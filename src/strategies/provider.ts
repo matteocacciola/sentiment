@@ -1,24 +1,27 @@
 import { cond, constant, stubTrue } from 'lodash';
-import { Strategy } from './interfaces';
-import { StrategyType } from './types';
-import googleStrategy from './google';
-import afinnStrategy from './afinn';
-import vaderStrategy from './vader';
-import bayesStrategy from './bayes';
+import { ScoresEvaluatorFunction, ScoresEvaluator, ScoresEvaluatorStrategy } from './types';
+import { evaluateScores as googleStrategy } from './google';
+import { evaluateScores as afinnStrategy } from './afinn';
+import { evaluateScores as vaderStrategy } from './vader';
+import { evaluateScores as bayesStrategy } from './bayes';
 
-const isGoogle = (strategy: StrategyType): boolean => strategy === 'google';
-const isAfinn = (strategy: StrategyType): boolean => strategy === 'afinn';
-const isVader = (strategy: StrategyType): boolean => strategy === 'vader';
-const isBayes = (strategy: StrategyType): boolean => strategy === 'bayes';
+const isGoogle = (strategy: ScoresEvaluatorStrategy): boolean => strategy === 'google';
+const isAfinn = (strategy: ScoresEvaluatorStrategy): boolean => strategy === 'afinn';
+const isVader = (strategy: ScoresEvaluatorStrategy): boolean => strategy === 'vader';
+const isBayes = (strategy: ScoresEvaluatorStrategy): boolean => strategy === 'bayes';
 
-export const strategyProvider = (strategy: StrategyType): Strategy => {
-  const provider = cond<StrategyType, Strategy>([
-    [isGoogle, constant<Strategy>(googleStrategy)],
-    [isAfinn, constant<Strategy>(afinnStrategy)],
-    [isVader, constant<Strategy>(vaderStrategy)],
-    [isBayes, constant<Strategy>(bayesStrategy)],
-    [stubTrue, constant<Strategy>(afinnStrategy)],
+export const strategyProvider = (strategy: ScoresEvaluator): ScoresEvaluatorFunction => {
+  if (typeof strategy !== 'string') {
+    return strategy as ScoresEvaluatorFunction;
+  }
+
+  const provider = cond<ScoresEvaluatorStrategy, ScoresEvaluatorFunction>([
+    [isGoogle, constant<ScoresEvaluatorFunction>(googleStrategy)],
+    [isAfinn, constant<ScoresEvaluatorFunction>(afinnStrategy)],
+    [isVader, constant<ScoresEvaluatorFunction>(vaderStrategy)],
+    [isBayes, constant<ScoresEvaluatorFunction>(bayesStrategy)],
+    [stubTrue, constant<ScoresEvaluatorFunction>(afinnStrategy)],
   ]);
 
-  return provider(strategy);
+  return provider(strategy as ScoresEvaluatorStrategy);
 };

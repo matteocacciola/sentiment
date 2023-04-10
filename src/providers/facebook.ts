@@ -1,20 +1,20 @@
 import { FacebookClient } from '../clients/facebook';
-import { AnalysisResultType, DateRange, ProviderFunctionType, SentimentConfigurationType } from '../types';
+import { AnalysisResults, DateRange, ProviderFunction, SentimentConfiguration } from '../types';
 import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
-import { ScoreStrategyOptions, StrategyType } from '../strategies/types';
+import { ScoresEvaluatorOptions, ScoresEvaluator } from '../strategies/types';
 
-export const analyze: ProviderFunctionType = async (
+export const analyze: ProviderFunction = async (
   company: string,
   timerange: DateRange,
-  strategyType: StrategyType,
+  scoresEvaluator: ScoresEvaluator,
   scoreThreshold: number,
-  configuration: SentimentConfigurationType,
-  strategyOptions?: ScoreStrategyOptions,
-): Promise<AnalysisResultType> => {
+  configuration: SentimentConfiguration,
+  scoresEvaluatorOptions?: ScoresEvaluatorOptions,
+): Promise<AnalysisResults> => {
   if (!configuration.facebook) {
     throw new Error('Invalid Facebook configuration');
   }
   const posts = await FacebookClient.getPosts(company, timerange, configuration.facebook);
 
-  return getAnalysisResults(company, posts, strategyType, scoreThreshold, strategyOptions);
+  return getAnalysisResults(company, posts, scoresEvaluator, scoreThreshold, scoresEvaluatorOptions);
 };

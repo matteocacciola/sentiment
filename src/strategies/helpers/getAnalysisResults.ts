@@ -1,17 +1,17 @@
-import { AnalysisResultType } from '../../types';
-import { StrategyType, ScoreStrategyOptions } from '../types';
+import { AnalysisResults } from '../../types';
+import { ScoresEvaluatorOptions, ScoresEvaluator } from '../types';
 import { getAnalysisStats } from './getAnalysisStats';
 
 export const getAnalysisResults = async (
   company: string,
   items: string[],
-  strategyType: StrategyType,
-  scoreThreshold: number,
-  strategyOptions?: ScoreStrategyOptions,
-): Promise<AnalysisResultType> => {
+  scoresEvaluator: ScoresEvaluator,
+  threshold: number,
+  scoresEvaluatorOptions?: ScoresEvaluatorOptions,
+): Promise<AnalysisResults> => {
   if (!company) {
     throw new Error('Missing argument: company');
   }
 
-  return getAnalysisStats(items, strategyType, scoreThreshold, strategyOptions);
+  return getAnalysisStats(items, scoresEvaluator, threshold, scoresEvaluatorOptions);
 };

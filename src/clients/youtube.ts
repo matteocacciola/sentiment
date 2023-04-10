@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 import { DateRange } from '../types';
-import { YoutubeClientType } from './types';
+import { YoutubeClientConfiguration } from './types';
 
 export namespace YoutubeClient {
   export const getSearchResult = async (
@@ -24,7 +24,7 @@ export namespace YoutubeClient {
   export const getComments = async (
     company: string,
     timerange: DateRange,
-    { apiKey, videos = 100, comments = 100 }: YoutubeClientType,
+    { apiKey, videos = 100, comments = 100 }: YoutubeClientConfiguration,
   ): Promise<string[]> => {
     try {
       const client: ReturnType<typeof google.youtube> =

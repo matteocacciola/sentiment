@@ -1,13 +1,13 @@
 import { TwitterApi } from 'twitter-api-v2';
 import { DateRange } from '../types';
 import { omit } from 'lodash';
-import { TwitterClientType } from './types';
+import { TwitterClientConfiguration } from './types';
 
 export namespace TwitterClient {
   export const getTweets = async (
     company: string,
     { since, until }: DateRange,
-    configuration: TwitterClientType,
+    configuration: TwitterClientConfiguration,
   ): Promise<any> => {
     try {
       const client = new TwitterApi(omit(configuration, 'tweets'));

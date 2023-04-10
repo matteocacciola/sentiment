@@ -1,24 +1,36 @@
-import { DescriptiveSource, MatchedAttributes } from '../types';
-import { ScoreStrategyType, StrategyType } from '../strategies/types';
+import { DescriptiveSource } from '../types';
+import { ScoresEvaluatorResult, ScoresEvaluator } from '../strategies/types';
 import { strategyProvider } from '../strategies/provider';
 
-type MatchingConfig = {
-  strategy: StrategyType;
+type TextMatchingConfig = {
+  scoresEvaluator: ScoresEvaluator;
   scoreThreshold: number;
 }
+
+type TextMatchingResult = {
+  overallMatch: number;
+  positiveMatch: number;
+  negativeMatch: number;
+};
+
+type TokenMatchesCount = {
+  overall: number;
+  positive: number;
+  negative: number;
+};
 
 const getTokenMatchesCount = (
   token: string,
   sourcesTokensLength: number,
   sources: DescriptiveSource[],
-  sentiments: ScoreStrategyType[],
-) => {
+  scoresEvaluations: ScoresEvaluatorResult[],
+): TokenMatchesCount => {
   let overall = 0;
   let positive = 0;
   let negative = 0;
 
-  sources.map(({ text: sourceText, rating }, index) => {
-    const { score, probability } = sentiments[index];
+  sources.forEach(({ text: sourceText, rating }, index) => {
+    const { score, probability } = scoresEvaluations[index];
 
     const isTokenIncluded = sourceText.toLowerCase().includes(token);
     const hasPositiveSentiment = (score !== undefined && score > 0) ||
@@ -38,14 +50,13 @@ const getTokenMatchesCount = (
 export const textMatching = async (
   text: string,
   sources: DescriptiveSource[],
-  options?: MatchingConfig,
-): Promise<MatchedAttributes> => {
-  const strategy = options?.strategy ?? 'afinn';
+  options?: TextMatchingConfig,
+): Promise<TextMatchingResult> => {
+  const scoresEvaluator = options?.scoresEvaluator ?? 'afinn';
   const scoreThreshold = options?.scoreThreshold ?? 0.3;
 
-  const provider = strategyProvider(strategy);
   const tokens = text.toLowerCase().split(' ');
-  const sentiments = await provider.evaluateScores(sources.map(source => source.text), scoreThreshold);
+  const scoresEvaluations = await strategyProvider(scoresEvaluator)(sources.map(source => source.text), scoreThreshold);
 
   const sourcesTokens = sources.flatMap(({ text: sourceText }) => sourceText.toLowerCase().split(' '));
   const sourcesTokensLength = sourcesTokens.length;
@@ -53,8 +64,13 @@ export const textMatching = async (
   let overallMatch = 0;
   let positiveMatch = 0;
   let negativeMatch = 0;
-  tokens.map((token) => {
-    const { overall, positive, negative } = getTokenMatchesCount(token, sourcesTokensLength, sources, sentiments);
+  tokens.forEach((token) => {
+    const { overall, positive, negative } = getTokenMatchesCount(
+      token,
+      sourcesTokensLength,
+      sources,
+      scoresEvaluations,
+    );
 
     overallMatch += overall;
     positiveMatch += positive;

@@ -7,35 +7,42 @@ export enum SENTIMENTS {
   undefined = 'undefined',
 }
 
-export type SentimentsType = keyof typeof SENTIMENTS;
+export type SentimentType = keyof typeof SENTIMENTS;
 
-export type SentimentValues = Record<SentimentsType, number>;
+export type SentimentValues = Record<SentimentType, number>;
 
 export type Score = {
   text: string;
   score?: number;
-  category?: SentimentsType;
+  category?: SentimentType;
 };
 
-export enum STRATEGIES {
+export enum SCORES_STRATEGIES {
   google = 'google',
   afinn = 'afinn',
   vader = 'vader',
   bayes = 'bayes',
 }
 
-export type StrategyType = keyof typeof STRATEGIES;
+export type ScoresEvaluatorStrategy = keyof typeof SCORES_STRATEGIES;
 
-export type ScoreStrategyType = {
+export type ScoresEvaluatorResult = {
   score?: number;
-  category: SentimentsType;
+  category: SentimentType;
   probability?: number;
 }
 
-type GoogleStategyOptions = ClientOptions;
-export type BayesStrategyOptions = {
+type GoogleEvaluateScoresStrategyOptions = ClientOptions;
+export type BayesEvaluateScoresStrategyOptions = {
   positivePath: string;
   negativePath: string;
 }
 
-export type ScoreStrategyOptions = GoogleStategyOptions | BayesStrategyOptions;
+export type ScoresEvaluatorOptions = GoogleEvaluateScoresStrategyOptions | BayesEvaluateScoresStrategyOptions;
+export type ScoresEvaluatorFunction = (
+  items: string[],
+  threshold: number,
+  options?: ScoresEvaluatorOptions
+) => Promise<ScoresEvaluatorResult[]>;
+
+export type ScoresEvaluator = ScoresEvaluatorStrategy | ScoresEvaluatorFunction;

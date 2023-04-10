@@ -1,11 +1,11 @@
 import { expect, describe, it, vitest, SpyInstance, afterEach } from 'vitest';
 import * as strategyProvider from '../../provider';
-import { StrategyType } from '../../types';
+import { ScoresEvaluatorStrategy } from '../../types';
 import { getAnalysisStats } from '../getAnalysisStats';
 
-const items = ['item 1', 'item 2', 'item 3'];
-const strategyType: StrategyType = 'afinn';
-const scoreThreshold = 0;
+const items: string[] = ['item 1', 'item 2', 'item 3'];
+const strategyType: ScoresEvaluatorStrategy = 'afinn';
+const threshold: number = 0;
 
 const evaluateScoresMock = vitest.fn().mockResolvedValue([
   { score: 0.5, category: 'positive' },
@@ -13,7 +13,7 @@ const evaluateScoresMock = vitest.fn().mockResolvedValue([
   { score: 0, category: 'neutral' },
 ]);
 const mockedStrategyProvider: SpyInstance = vitest.spyOn(strategyProvider, 'strategyProvider')
-  .mockReturnValue({ evaluateScores: evaluateScoresMock });
+  .mockReturnValue(evaluateScoresMock);
 
 describe('getAnalysisStats', () => {
   afterEach(() => {
@@ -29,22 +29,22 @@ describe('getAnalysisStats', () => {
         { text: 'item 3', score: 0, category: 'neutral' },
       ],
     };
-    const result = await getAnalysisStats(items, strategyType, scoreThreshold);
+    const result = await getAnalysisStats(items, strategyType, threshold);
     expect(result).toEqual(expectedResult);
   });
 
   it('should call strategyProvider with the correct strategy type', async () => {
-    await getAnalysisStats(items, strategyType, scoreThreshold);
+    await getAnalysisStats(items, strategyType, threshold);
     expect(mockedStrategyProvider).toHaveBeenCalledWith(strategyType);
   });
 
   it('should call evaluateScores with the correct parameters', async () => {
-    await getAnalysisStats(items, strategyType, scoreThreshold);
-    expect(evaluateScoresMock).toHaveBeenCalledWith(items, scoreThreshold, undefined);
+    await getAnalysisStats(items, strategyType, threshold);
+    expect(evaluateScoresMock).toHaveBeenCalledWith(items, threshold, undefined);
   });
 
   it.each([undefined, []])('should return null if items argument is missing or empty', async (item) => {
-    expect(await getAnalysisStats(item as unknown as string[], strategyType, scoreThreshold))
+    expect(await getAnalysisStats(item as unknown as string[], strategyType, threshold))
       .toBeNull();
   });
 });

@@ -1,12 +1,12 @@
 import { expect, describe, it, vitest, beforeEach, SpyInstance } from 'vitest';
 import * as getCompanyMediaSentiment from '../../helpers/getCompanyMediaSentiment';
 import { mediaSentiment } from '../media-sentiment';
-import { DateRange, SentimentConfigurationType } from '../../types';
+import { DateRange, SentimentConfiguration } from '../../types';
 import { mockedGetCompanyMediaSentimentResult } from './mocks/media-sentiment';
 
 const mockedGetCompanyMediaSentiment: SpyInstance = vitest.spyOn(getCompanyMediaSentiment, 'getCompanyMediaSentiment');
 const company: string = 'test company';
-const configuration: SentimentConfigurationType = {
+const configuration: SentimentConfiguration = {
   openai: { apiKey: 'testOpenAiApiKey' },
 };
 const media: string[] = ['facebook', 'instagram', 'news', 'tiktok', 'twitter', 'youtube'];

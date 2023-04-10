@@ -1,4 +1,4 @@
-import { SentimentsType } from '../../../strategies/types';
+import { SentimentType } from '../../../strategies/types';
 import { DateRange, SentimentAnalysisResult } from '../../../types';
 
 const sentimentStats = {
@@ -11,12 +11,12 @@ const analyzedElements = [
   {
     text: 'Text 1',
     score: 0.4,
-    category: 'positive' as SentimentsType,
+    category: 'positive' as SentimentType,
   },
   {
     text: 'Text 2',
     score: -0.8,
-    category: 'negative' as SentimentsType,
+    category: 'negative' as SentimentType,
   },
 ];
 

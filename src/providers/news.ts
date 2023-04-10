@@ -1,20 +1,20 @@
-import { AnalysisResultType, DateRange, ProviderFunctionType, SentimentConfigurationType } from '../types';
+import { AnalysisResults, DateRange, ProviderFunction, SentimentConfiguration } from '../types';
 import { NewsClient } from '../clients/news';
 import { getAnalysisResults } from '../strategies/helpers/getAnalysisResults';
-import { ScoreStrategyOptions, StrategyType } from '../strategies/types';
+import { ScoresEvaluatorOptions, ScoresEvaluator } from '../strategies/types';
 
-export const analyze: ProviderFunctionType = async (
+export const analyze: ProviderFunction = async (
   company: string,
   timerange: DateRange,
-  strategyType: StrategyType,
+  scoresEvaluator: ScoresEvaluator,
   scoreThreshold: number,
-  configuration: SentimentConfigurationType,
-  strategyOptions?: ScoreStrategyOptions,
-): Promise<AnalysisResultType> => {
+  configuration: SentimentConfiguration,
+  scoresEvaluatorOptions?: ScoresEvaluatorOptions,
+): Promise<AnalysisResults> => {
   if (!configuration.news) {
     throw new Error('Invalid NewsAPI configuration');
   }
   const articles = await NewsClient.getNews(company, timerange, configuration.news);
 
-  return getAnalysisResults(company, articles, strategyType, scoreThreshold, strategyOptions);
+  return getAnalysisResults(company, articles, scoresEvaluator, scoreThreshold, scoresEvaluatorOptions);
 };
