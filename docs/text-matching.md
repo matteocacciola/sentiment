@@ -14,10 +14,10 @@ given a number of reviews in `sources` and a description of the restaurant you w
 ## Usage
 The usage is really simple
 ```typescript
-import { matching } from '@matteocacciola/sentiment'
+import { textMatching } from '@matteocacciola/sentiment'
 
-const result: MatchedAttributes = matching('yourText', sources);
-const result: MatchedAttributes = matching('yourText', sources, options);
+const result: MatchedAttributes = textMatching('yourText', sources);
+const result: MatchedAttributes = textMatching('yourText', sources, options);
 ```
 where `sources` identifies the array of elements to match with. Each source has the format:
 ```typescript

@@ -18,7 +18,7 @@ describe('getTimerange', () => {
     expect(() => new Date(dateRange.until)).not.toThrow();
   });
 
-  it('should return a date range object where since is the current date', () => {
+  it('should return a date range object where until is the current date and period is zero', () => {
     const dateRange = getTimerange(0);
     const now = new Date();
     const since = new Date(dateRange.since);
@@ -27,16 +27,16 @@ describe('getTimerange', () => {
     expect(since.getUTCDate()).toEqual(now.getUTCDate());
   });
 
-  it('should return a date range object where until is the current date minus the specified number of days', () => {
+  it('should return a date range object where since is the current date minus the specified number of days', () => {
     const period = 7;
     const dateRange = getTimerange(period);
     const now = new Date();
-    const until = new Date(dateRange.until);
-    const expectedUntil = new Date(
+    const since = new Date(dateRange.since);
+    const expectedSince = new Date(
       Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - period),
     );
-    expect(until.getUTCFullYear()).toEqual(expectedUntil.getUTCFullYear());
-    expect(until.getUTCMonth()).toEqual(expectedUntil.getUTCMonth());
-    expect(until.getUTCDate()).toEqual(expectedUntil.getUTCDate());
+    expect(since.getUTCFullYear()).toEqual(expectedSince.getUTCFullYear());
+    expect(since.getUTCMonth()).toEqual(expectedSince.getUTCMonth());
+    expect(since.getUTCDate()).toEqual(expectedSince.getUTCDate());
   });
 });

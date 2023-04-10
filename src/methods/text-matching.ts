@@ -35,7 +35,7 @@ const getTokenMatchesCount = (
   return { overall, positive, negative };
 };
 
-export const matching = async (
+export const textMatching = async (
   text: string,
   sources: DescriptiveSource[],
   options?: MatchingConfig,

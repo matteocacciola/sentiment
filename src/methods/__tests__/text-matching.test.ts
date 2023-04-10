@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { matching } from '../matching';
+import { textMatching } from '../text-matching';
 import { DescriptiveSource } from '../../types';
 
 describe('calculateMatchingAttributes', () => {
@@ -20,19 +20,19 @@ describe('calculateMatchingAttributes', () => {
 
   it('should return a positive overall match', async () => {
     const textToMatch = 'I want to eat steak and pasta.';
-    const attributes = await matching(textToMatch, reviews);
+    const attributes = await textMatching(textToMatch, reviews);
     expect(attributes.overallMatch).toBeGreaterThan(0);
   });
 
   it('should return a positive match', async () => {
     const textToMatch = 'I want to eat delicious steak and excellent pasta.';
-    const attributes = await matching(textToMatch, reviews);
+    const attributes = await textMatching(textToMatch, reviews);
     expect(attributes.positiveMatch).toBeGreaterThan(0);
   });
 
   it('should return a negative match', async () => {
     const textToMatch = 'I don\'t want to eat terrible chicken.';
-    const attributes = await matching(textToMatch, reviews);
+    const attributes = await textMatching(textToMatch, reviews);
     expect(attributes.negativeMatch).toEqual(0);
   });
 });
