@@ -1,7 +1,10 @@
+require('@tensorflow/tfjs-node');
+
 import { SentimentAnalyzer, TfIdf, PorterStemmer } from 'natural';
 import { getSentimentType } from '../strategies/helpers/getSentimentType';
 import { SentimentAnalysisResult } from '../types';
 import { getSimilarities } from '../helpers/getSimilarities';
+import { UniversalSentenceEncoder } from '@tensorflow-models/universal-sentence-encoder';
 
 type SentimentResult = Omit<SentimentAnalysisResult, 'timeRange' | 'summary'>;
 type SentimentConfig = {
@@ -12,10 +15,11 @@ type SentimentConfig = {
 const getAveragedScore = async (
   analyzer: SentimentAnalyzer,
   tfidf: TfIdf,
+  model: UniversalSentenceEncoder,
   sentences: string[],
   similarityThreshold: number,
 ): Promise<number | undefined> => {
-  const similarities = await getSimilarities(sentences, similarityThreshold);
+  const similarities = await getSimilarities(model, sentences, similarityThreshold);
 
   let num = 0, den = 0;
   similarities.forEach((group, i) => {
@@ -50,11 +54,20 @@ export const keywordsSentiment = async (items: string[], options?: SentimentConf
     analyzedAt: new Date().toISOString(),
   };
 
+  const model = new UniversalSentenceEncoder();
+  await model.load();
+
   await Promise.all(items.map(async (item) => {
     const sentences = item.replace(/([.?!])\s*(?=[A-Z])/g, '$1|')
       .split('|')
       .map(sentence => sentence.trim());
-    const score = await getAveragedScore(analyzer, tfidf, sentences, similarityThreshold);
+    const score = await getAveragedScore(
+      analyzer,
+      tfidf,
+      model,
+      sentences,
+      similarityThreshold,
+    );
 
     if (score) {
       const category = getSentimentType(score, scoreThreshold);

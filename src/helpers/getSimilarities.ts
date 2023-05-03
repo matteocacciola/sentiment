@@ -1,5 +1,3 @@
-require('@tensorflow/tfjs-node');
-
 import { distance } from './distance';
 import { UniversalSentenceEncoder } from '@tensorflow-models/universal-sentence-encoder';
 
@@ -51,9 +49,11 @@ const formGroups = (sentences: string[], similarityMatrix: number[][], threshold
     );
 };
 
-export const getSimilarities = async (sentences: string[], threshold: number): Promise<string[][]> => {
-  const model = new UniversalSentenceEncoder();
-  await model.load();
+export const getSimilarities = async (
+  model: UniversalSentenceEncoder,
+  sentences: string[],
+  threshold: number,
+): Promise<string[][]> => {
   const embeddings = await model.embed(sentences);
   const matrix = cosineSimilarityMatrix(embeddings.arraySync());
 

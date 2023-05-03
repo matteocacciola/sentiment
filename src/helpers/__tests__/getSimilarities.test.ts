@@ -1,4 +1,7 @@
+require('@tensorflow/tfjs-node');
+
 import { describe, expect, it } from 'vitest';
+import { UniversalSentenceEncoder } from '@tensorflow-models/universal-sentence-encoder';
 import { getSimilarities } from '../getSimilarities';
 
 const similarityThreshold = 0.5;
@@ -19,9 +22,12 @@ const sentences = text.replace(/([.?!])\s*(?=[A-Z])/g, '$1|')
   .split('|')
   .map(sentence => sentence.trim());
 
+const model = new UniversalSentenceEncoder();
+
 describe('getSimilarities', () => {
   it('get the similarities', async () => {
-    const similarities = await getSimilarities(sentences, similarityThreshold);
+    await model.load();
+    const similarities = await getSimilarities(model, sentences, similarityThreshold);
 
     expect(similarities).toStrictEqual([
       [
