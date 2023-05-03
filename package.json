@@ -81,5 +81,5 @@
     "test": "TZ=utc NODE_ENV=test vitest run --coverage",
     "test:nocoverage": "TZ=utc NODE_ENV=test vitest run --no-coverage"
   },
-  "version": "1.4.1"
+  "version": "1.4.0"
 }
