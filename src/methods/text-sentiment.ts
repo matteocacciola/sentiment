@@ -2,7 +2,7 @@ import { SentimentAnalysisResult } from '../types';
 import { ScoresEvaluatorOptions, ScoresEvaluator } from '../strategies/types';
 import { getAnalysisStats } from '../strategies/helpers/getAnalysisStats';
 
-type SentimentResult = Omit<SentimentAnalysisResult, 'timeRange' | 'summary'> | null;
+type SentimentResult = Omit<SentimentAnalysisResult | null, 'timeRange' | 'summary'> | null;
 
 type SentimentConfig = {
   strategy?: ScoresEvaluator;
@@ -22,7 +22,7 @@ export const textSentiment = async (items: string[], options?: SentimentConfig):
   );
 
   if (!result) {
-    return result;
+    return null;
   }
 
   const { sentimentStats, scores: analyzedElements } = result;

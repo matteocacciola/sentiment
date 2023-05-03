@@ -2,7 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { textMatching } from '../text-matching';
 import { DescriptiveSource } from '../../types';
 
-describe('calculateMatchingAttributes', () => {
+describe('textMatching', () => {
   const reviews: DescriptiveSource[] = [
     {
       text: 'The steak was delicious.',

@@ -10,7 +10,7 @@ export const analyze: ProviderFunction = async (
   scoreThreshold: number,
   configuration: SentimentConfiguration,
   scoresEvaluatorOptions?: ScoresEvaluatorOptions,
-): Promise<AnalysisResults> => {
+): Promise<AnalysisResults | null> => {
   if (!configuration.tiktok) {
     throw new Error('Invalid TikTok configuration');
   }

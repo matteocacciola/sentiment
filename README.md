@@ -1,13 +1,15 @@
 # Sentiment Analysis for Node.js
 
-[![Coverage Status](https://coveralls.io/repos/github/matteocacciola/sentiment/badge.svg?branch=v1.3.0)](https://coveralls.io/github/matteocacciola/sentiment?branch=v1.3.0)
+[![Coverage Status](https://coveralls.io/repos/github/matteocacciola/sentiment/badge.svg?branch=v1.4.0)](https://coveralls.io/github/matteocacciola/sentiment?branch=v1.3.0)
 
 This library aims to provide a support for the analysis of texts, like the evaluation of Sentiment or Text Matching.
 Please, consult the various methods here provided in order to have a wide overview of the possible features.
 
 - [Media Sentiment Analysis](./docs/media-sentiment.md)
 - [Texts Sentiment Analysis](./docs/texts-sentiment.md)
+- [Texts Sentiment Analysis based on Keywords and Text Similarities](./docs/keywords-sentiment.md)
 - [Text Matching based on Sentiment Analysis](./docs/text-matching.md)
+- [Text Similarities](./docs/text-similarities.md)
 
 ## Installation
 In order to install the library, please use

@@ -82,7 +82,7 @@ In order to use YouTube as well, you need to set your API key to the `configurat
 Please, login to the [Google Developers Console](https://console.cloud.google.com/apis/dashboard) for more details.
 
 ### Options
-The `options` has the format `{ scoresEvaluator: ScoresEvaluator, scanPeriodDays: number; scoreThreshold: number; scoresEvaluatorOptions: ScoresEvaluatorOptions }`,
+The `options` has the format `{ scoresEvaluator: ScoresEvaluator; scanPeriodDays: number; scoreThreshold: number; scoresEvaluatorOptions: ScoresEvaluatorOptions }`,
 where:
 - `scoresEvaluator` (default `'afinn'`) identifies the strategy to use for the evaluation of the scores and sentiments of the
   various collected data with `type ScoresEvaluatorStrategy = 'afinn' | 'google' | 'vader' | 'bayes'` (AFINN; Google Natural
@@ -113,7 +113,6 @@ type SentimentAnalysisResult = {
   positive: number;
   negative: number;
   neutral: number;
-  undefined: number;
   analyzedElements: Score[];
   summary?: string | null;
   timeRange: {

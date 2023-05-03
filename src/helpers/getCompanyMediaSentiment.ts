@@ -11,7 +11,7 @@ export const getCompanyMediaSentiment = async (
   scoresEvaluator: ScoresEvaluator,
   scoreThreshold: number,
   scoresEvaluatorOptions?: ScoresEvaluatorOptions,
-): Promise<SentimentAnalysisResult> => {
+): Promise<SentimentAnalysisResult | null> => {
   const { openai } = configuration;
   const result = await sentimentMediaFactory(media)(
     company,

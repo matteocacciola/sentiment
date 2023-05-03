@@ -8,7 +8,7 @@ export const getAnalysisResults = async (
   scoresEvaluator: ScoresEvaluator,
   threshold: number,
   scoresEvaluatorOptions?: ScoresEvaluatorOptions,
-): Promise<AnalysisResults> => {
+): Promise<AnalysisResults | null> => {
   if (!company) {
     throw new Error('Missing argument: company');
   }

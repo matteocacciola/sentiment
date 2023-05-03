@@ -29,7 +29,7 @@ type DescriptiveSource = {
 with `rating` from 1 to 5.
 
 ### Options
-`options` has the format `{ scoresEvaluator: ScoresEvaluator, scoreThreshold: number; }`, where
+`options` has the format `{ scoresEvaluator: ScoresEvaluator; scoreThreshold: number; }`, where
 - `scoresEvaluator` (default `'afinn'`) identifies the strategy to use for the evaluation of the scores and sentiments of the
   various collected data with `type ScoresEvaluatorStrategy = 'afinn' | 'google' | 'vader' | 'bayes'` (AFINN; Google Natural
   Language; VADER; Naive Bayes - default `'afinn'`). You can also pass a custom evaluator implementing the following type:

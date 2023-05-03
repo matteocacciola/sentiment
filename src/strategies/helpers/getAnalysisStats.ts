@@ -7,7 +7,7 @@ export const getAnalysisStats = async (
   scoresEvaluator: ScoresEvaluator,
   threshold: number,
   scoresEvaluatorOptions?: ScoresEvaluatorOptions,
-): Promise<StatsResults> => {
+): Promise<StatsResults | null> => {
   if (!items || !items.length) {
     return null;
   }

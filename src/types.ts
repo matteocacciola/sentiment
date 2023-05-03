@@ -41,7 +41,7 @@ export type SentimentAnalysisResult = {
   };
   sentimentScore: number;
   analyzedAt: string;
-} | null;
+};
 
 export enum MEDIA {
   facebook = 'facebook',
@@ -57,7 +57,7 @@ export type MediaType = keyof typeof MEDIA;
 export type AnalysisResults = {
   sentimentStats: SentimentValues;
   scores: Score[];
-} | null;
+};
 export type StatsResults = AnalysisResults;
 
 export type ProviderFunction = (
@@ -67,7 +67,7 @@ export type ProviderFunction = (
   scoreThreshold: number,
   configuration: SentimentConfiguration,
   scoresEvaluatorOptions?: ScoresEvaluatorOptions,
-) => Promise<AnalysisResults>;
+) => Promise<AnalysisResults | null>;
 
 export type DescriptiveSource = {
   text: string;

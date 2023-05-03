@@ -4,7 +4,7 @@ import { validator } from '../validators/sentiment';
 import { getCompanyMediaSentiment } from '../helpers/getCompanyMediaSentiment';
 import { ScoresEvaluatorOptions, ScoresEvaluator } from '../strategies/types';
 
-type SentimentResult = Record<string, SentimentAnalysisResult>[];
+type SentimentResult = Record<string, SentimentAnalysisResult | null>[];
 
 type SentimentConfig = {
   scoresEvaluator: ScoresEvaluator;

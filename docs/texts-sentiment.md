@@ -13,7 +13,7 @@ const results: SentimentResult = await textSentiment(texts, options);
 where `texts` is an array of texts you want to analyze the Sentiment.
 
 ### Options
-The `options` has the format `{ scoresEvaluator: ScoresEvaluator, scanPeriodDays: number; scoreThreshold: number; scoresEvaluatorOptions: ScoresEvaluatorOptions }`,
+The `options` has the format `{ scoresEvaluator: ScoresEvaluator; scanPeriodDays: number; scoreThreshold: number; scoresEvaluatorOptions: ScoresEvaluatorOptions }`,
 where:
 - `scoresEvaluator` (default `'afinn'`) identifies the strategy to use for the evaluation of the scores and sentiments of the
   various collected data with `type ScoresEvaluatorStrategy = 'afinn' | 'google' | 'vader' | 'bayes'` (AFINN; Google Natural
@@ -42,7 +42,6 @@ type SentimentResult = {
   positive: number;
   negative: number;
   neutral: number;
-  undefined: number;
   analyzedElements: Score[];
   sentimentScore: number;
   analyzedAt: string;
