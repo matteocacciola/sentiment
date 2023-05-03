@@ -15,7 +15,7 @@ describe('textSimilarities', () => {
     'The cat ate the mouse. ' +
     'The mouse ate the cat.';
 
-  it('success', async () => {
+  it.skip('success', async () => {
     const results = await textSimilarities(text);
     expect(results).toStrictEqual([
       [

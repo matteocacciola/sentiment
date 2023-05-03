@@ -1,3 +1,4 @@
+require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
 
 import { distance } from './distance';

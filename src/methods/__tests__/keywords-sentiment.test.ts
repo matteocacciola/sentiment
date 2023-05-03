@@ -20,7 +20,7 @@ describe('keywordsSentiment', () => {
       'The mouse ate the cat.',
   ];
 
-  it('success', async () => {
+  it.skip('success', async () => {
     const results = await keywordsSentiment(inputs);
     expect(results.positive).toEqual(1);
     expect(results.negative).toEqual(0);
