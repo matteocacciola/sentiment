@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { textSimilarities } from '../text-similarities';
 
-describe('textSimilarities', () => {
+describe.skip('textSimilarities', () => {
   const text= 'Will it snow tomorrow? ' +
     'Recently a lot of hurricanes have hit the US. ' +
     'Global warming is real. ' +
@@ -15,7 +15,7 @@ describe('textSimilarities', () => {
     'The cat ate the mouse. ' +
     'The mouse ate the cat.';
 
-  it.skip('success', async () => {
+  it('success', async () => {
     const results = await textSimilarities(text);
     expect(results).toStrictEqual([
       [

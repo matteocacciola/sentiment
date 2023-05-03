@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { keywordsSentiment } from '../keywords-sentiment';
 
-describe('keywordsSentiment', () => {
+describe.skip('keywordsSentiment', () => {
   const inputs= [
     'I love my new car! It\'s fast, comfortable and stylish. ' +
       'I really enjoyed the movie. The acting was great and the plot kept me engaged. ' +
@@ -20,7 +20,7 @@ describe('keywordsSentiment', () => {
       'The mouse ate the cat.',
   ];
 
-  it.skip('success', async () => {
+  it('success', async () => {
     const results = await keywordsSentiment(inputs);
     expect(results.positive).toEqual(1);
     expect(results.negative).toEqual(0);
